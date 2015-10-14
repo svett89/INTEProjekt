@@ -9,17 +9,33 @@ public class Kvitto {
 		//Tom konstruktor, bör behållas?
 	}
 	public Kvitto(Vara... varor){
-		for(Vara v : varor){
-			varuMap.put(v, (varuMap.get(v)+1));
-		}
+		läggTillVaror(varor);
 	}
 	
 	public void läggTillVara(Vara v, int antal){
-		varuMap.put(v, (varuMap.get(v)+antal));
+		if(varuMap.containsKey(v)){
+			varuMap.put(v, (varuMap.get(v)+antal));
+		}else{
+			varuMap.put(v, antal);
+		}
 	}
 	
 	public void läggTillVara(Vara v){
-		varuMap.put(v, (varuMap.get(v)+1));
+		if(varuMap.containsKey(v)){
+			varuMap.put(v, (varuMap.get(v)+1));
+		}else{
+			varuMap.put(v, 1);
+		}
+	}
+	public void läggTillVaror(Vara ... varor){
+		for(Vara v : varor){
+			if(v != null && varuMap.containsKey(v)){
+				varuMap.put(v, (varuMap.get(v)+1));
+			}
+			else if(v != null){
+				varuMap.put(v, 1);
+			}
+		}
 	}
 	
 	public boolean varaFinns(Vara v){
@@ -37,11 +53,26 @@ public class Kvitto {
 	
 	public void läggTillVarorFrånSamling(Collection<Vara> varuSamling){
 		for(Vara v : varuSamling){
-			varuMap.put(v, (varuMap.get(v)+1));
+			if(v != null && varuMap.containsKey(v)){
+				varuMap.put(v, (varuMap.get(v)+1));
+			}
+			else if(v != null){
+				varuMap.put(v, 1);
+			}
+			
 		}
 	}
 	
 	public Set<Vara> getVaruSet(){
 		return varuMap.keySet();
 	}
+	
+	public void töm(){
+		varuMap.clear();
+	}
+	
+	public Integer taBortAllaAvEnVara(Vara v){
+		return varuMap.remove(v);
+	}
+
 }
