@@ -29,29 +29,29 @@ public class Pengartest {
     @Test
     public void testaBelopp() {
         BigDecimal expected = new BigDecimal("3266.52");
-        assertEquals(testPengar.getBelopp(),expected);
+        assertEquals(expected,testPengar.getBelopp());
     }
     
     @Test
     public void testaAvrundingStil(){
-        assertEquals(testPengar.getAvrundningsMode(),RoundingMode.UP);
+        assertEquals(RoundingMode.UP, testPengar.getAvrundningsMode());
     }
     
     @Test
     public void testaBeloppÖverNoll(){
-        assertEquals(testPengar.ärPositivBelopp(),true);
+        assertEquals(true, testPengar.ärPositivBelopp());
     }
     
     @Test
     public void testaBeloppUnderNoll(){
-        assertEquals(testPengar.ärNegativBelopp(),false);
+        assertEquals(false, testPengar.ärNegativBelopp());
     }
     
     @Test
     public void testaNollPunkt(){
         BigDecimal noll = new BigDecimal("0");
         Pengar testaPengarNoll = new Pengar(noll,Currency.getInstance("SEK"),RoundingMode.UP);
-        assertEquals(testaPengarNoll.ärNoll(),true);
+        assertEquals(true, testaPengarNoll.ärNoll());
     }
     
     //Ej klar
@@ -60,9 +60,7 @@ public class Pengartest {
         Pengar p1 = skapaPengar(BigDecimal.valueOf(2.0));
         Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
         
-        p1.plus(p2);
-        BigDecimal expected = new BigDecimal("5.0");
-        assertEquals(p1.getBelopp(), expected);
+        assertEquals(new BigDecimal("5.0"), p1.plus(p2).getBelopp());
         
     }
     
@@ -71,22 +69,19 @@ public class Pengartest {
         Pengar p1 = skapaPengar(BigDecimal.valueOf(5.0));
         Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
        
-        p1.minus(p2);
-        BigDecimal expected = new BigDecimal("2.0");
-        assertEquals(p1.getBelopp(), expected);
+        //p1.minus(p2).getBelopp();
+
+        assertEquals(new BigDecimal("2.0"), p1.minus(p2).getBelopp() );
     }
     @Test
     public void testMultipliceraPengar(){
         Pengar p1 = skapaPengar(BigDecimal.valueOf(5.0));
-        Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
-        
-        p1.gånger(p2);
-       
-        BigDecimal expected = new BigDecimal("15.0");
-        assertEquals(p1.getBelopp(), expected);
+        int faktor = 3;
+        assertEquals(new BigDecimal("15.0"), p1.gånger(faktor).getBelopp());
         
     }
   
+    
 }
 
 

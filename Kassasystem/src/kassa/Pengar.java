@@ -3,6 +3,7 @@ package kassa;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.math.*;
+
 public class Pengar {
 
     private BigDecimal belopp;
@@ -45,19 +46,19 @@ public class Pengar {
     public boolean ärNoll() {
         return belopp.compareTo(BigDecimal.ZERO) == 0;
     }
-    public void gånger(Pengar p2) {
-        // TODO Auto-generated method stub
+    public Pengar gånger(int gånger) {
+        BigDecimal faktor = new BigDecimal(gånger);
+        return new Pengar(belopp.multiply(faktor));
+    }
+    public Pengar minus(Pengar p2) {
+        return new Pengar(belopp.subtract(p2.belopp));
         
     }
-    public void minus(Pengar p2) {
-        // TODO Auto-generated method stub
-        
+    public Pengar plus(Pengar p2) {
+        return new Pengar(belopp.add(p2.belopp));
     }
-    public void plus(Pengar p2) {
-        // TODO Auto-generated method stub
-        
-    }
-   
-    
-    
+  
+    public String toString(){
+        return belopp.toPlainString();
+      }
 }
