@@ -6,20 +6,21 @@ import static org.junit.Assert.*;
 
 public class Rabattest {
 	
-	Kvitto kvitto = new Kvitto();
 	
 	@Test
-	public void testaRabattEjNull(){
-		
-		assertTrue(Rabatt.getRabatt(kvitto) != null);
-		
+	public void testaHämtaRabatter(){
+		Rabatt.getRabatter();
 	}
 	
 	@Test
-	public void testaRabattÄrRabatt(){
-		
-		assertTrue(Rabatt.getRabatt(kvitto) instanceof Rabatt);
+	public void testaRabbaterEjNull(){
+		assertNotNull(Rabatt.getRabatter());
 	}
 	
+//	@Test
+//	public void testaSparaRabatt(){
+//	Rabatt.sparaRabatt(Vara vara, int antal, int rabatt) 
+//	}
+//	
 	
 }

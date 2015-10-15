@@ -1,13 +1,11 @@
 package kassa;
 
+import java.util.Map;
+
 public class Rabatt {
 
-	private final String[] rabatter = {"3FÖR2", "50%", "10%"};
-	
-	public static Rabatt getRabatt(Kvitto kvitto){
-		
+	public static Map<Vara, Map<Integer, Integer>> getRabatter(){
 		return null;
 		
 	}
-	
 }
