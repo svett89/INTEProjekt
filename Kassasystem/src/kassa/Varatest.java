@@ -2,6 +2,7 @@ package kassa;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import java.util.*;
 
 
 
@@ -21,6 +22,5 @@ public class Varatest {
 		assertTrue(v1.hashCode() == v2.hashCode());
 		assertTrue(v1.equals(v2));
 	}
-	
 	
 }
