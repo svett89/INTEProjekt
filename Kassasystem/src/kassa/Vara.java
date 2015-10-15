@@ -4,15 +4,19 @@ public class Vara {
 	private String namn;
 	private double pris;
 
-	public Vara(String namn, int pris) {
+	public Vara(String namn, double pris) {
+
+		if (pris < 0 || pris > 9999) {
+			throw new IllegalArgumentException();
+		}
 		this.namn = namn;
 		this.pris = pris;
 	}
-	
-	public String getName() {
+
+	public String getNamn() {
 		return namn;
 	}
-	
+
 	public double getPris() {
 		return pris;
 	}
@@ -46,6 +50,4 @@ public class Vara {
 			return false;
 		return true;
 	}
-
-
 }
