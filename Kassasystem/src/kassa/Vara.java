@@ -1,12 +1,14 @@
 package kassa;
+import java.math.*;
 
 public class Vara {
 	private String namn;
-	private double pris;
+	//Ändra till pengar
+	private Pengar pris;
 
-	public Vara(String namn, double pris) {
-
-		if (pris < 0 || pris > 9999) {
+	public Vara(String namn, Pengar pris) {
+		//Kollar inte maxvärde! Fixa!
+		if (pris.ärNegativBelopp()) {
 			throw new IllegalArgumentException();
 		}
 		this.namn = namn;
@@ -16,8 +18,8 @@ public class Vara {
 	public String getNamn() {
 		return namn;
 	}
-
-	public double getPris() {
+	//Ändra till pengar
+	public Pengar getPris() {
 		return pris;
 	}
 
@@ -26,9 +28,7 @@ public class Vara {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((namn == null) ? 0 : namn.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(pris);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((pris == null) ? 0 : pris.hashCode());
 		return result;
 	}
 
@@ -38,7 +38,7 @@ public class Vara {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Vara))
 			return false;
 		Vara other = (Vara) obj;
 		if (namn == null) {
@@ -46,8 +46,12 @@ public class Vara {
 				return false;
 		} else if (!namn.equals(other.namn))
 			return false;
-		if (Double.doubleToLongBits(pris) != Double.doubleToLongBits(other.pris))
+		if (pris == null) {
+			if (other.pris != null)
+				return false;
+		} else if (!pris.equals(other.pris))
 			return false;
 		return true;
 	}
+
 }

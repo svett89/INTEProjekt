@@ -3,16 +3,20 @@ package kassa;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.*;
+import java.math.*;
+
 public class Kvittotest {
 	
 	//Hjälpmetod som skapar tomt kvitto (meningslös, fixa till).
 	private Kvitto skapaTomtK(){
 		return new Kvitto();
 	}
-	
+	private BigDecimal värde = new BigDecimal(10);
+	private Currency valuta = Currency.getInstance("SEK");
+	private Pengar pris = new Pengar(värde, valuta, RoundingMode.HALF_EVEN);
 	//Hjälpmetod som skapar en tom vara (meningslös, fixa till).
 	private Vara skapaTomV(){
-		return new Vara("");
+		return new Vara("", pris);
 	}
 	
 	@Test
@@ -84,8 +88,10 @@ public class Kvittotest {
 	
 	@Test
 	public void testaTaBortVara(){
+		BigDecimal bd = new BigDecimal(30);
+		pris.setBelopp(bd);
 		Kvitto k = new Kvitto();
-		Vara v = new Vara("");
+		Vara v = new Vara("", pris);
 		läggTillVaror(k);
 		assert(k.getTotalMängdVaror() == 10);
 		k.taBortAllaAvEnVara(v);
@@ -95,10 +101,10 @@ public class Kvittotest {
 	@Test
 	public void testaTaBortOchLäggTill(){
 		Kvitto k = new Kvitto();
-		Vara v1 = new Vara("V1");
-		Vara v2 = new Vara("V2");
-		Vara v22 = new Vara("V2");
-		Vara v3 = new Vara("V3");
+		Vara v1 = new Vara("V1", pris);
+		Vara v2 = new Vara("V2", pris);
+		Vara v22 = new Vara("V2", pris);
+		Vara v3 = new Vara("V3", pris);
 		k.läggTillVaror(v1, v2, v22, v3);
 		assert(k.getTotalMängdVaror() == 4);
 		k.taBortAllaAvEnVara(v2);
@@ -116,7 +122,7 @@ public class Kvittotest {
 		int min = 1;
 		int randomInt = min + slump.nextInt(999);
 		for(int i = 0; i < randomInt; i++){
-			Vara v = new Vara(""+randomInt);
+			Vara v = new Vara(""+randomInt, pris);
 			k.läggTillVara(v);
 			assert(k.getTotalMängdVaror() == 1);
 		}
