@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>50</x>
+      <y>280</y>
+      <w>200</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>kassa::Pengar
+--
+-belopp: BigDecimal
+-valuta: Currency
+-avrundningsMode: RoundingMode
+--
++Pengar(BigDecimal belopp, Currency valuta, RoundingMode avrundningsMode): ctor
++Pengar(BigDecimal belopp): ctor
++setBelopp(BigDecimal belopp): void
++getBelopp(): BigDecimal
++getValuta(): Currency
++getAvrundningsMode(): RoundingMode
++ärNegativBelopp(): boolean
++ärPositivBelopp(): boolean
++ärNoll(): boolean
++gånger(int gånger): Pengar
++minus(Pengar p2): Pengar
++plus(Pengar p2): Pengar
++toString(): String
++hashCode(): int
++equals(Object obj): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>500</x>
+      <y>70</y>
+      <w>450</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>kassa::Kvitto
+--
+-varuMap = new HashMap&lt;Vara, Integer&gt;(): HashMap&lt;Vara, Integer&gt;
+--
++Kvitto(): ctor
++Kvitto(Vara... varor): ctor
++läggTillVara(Vara v, int antal): void
++läggTillVara(Vara v): void
++läggTillVaror(Vara... varor): void
++varaFinns(Vara v): boolean
++getTotalMängdVaror(): int
++läggTillVarorFrånSamling(Collection&lt;Vara&gt; varuSamling): void
++getVaruSet(): Set&lt;Vara&gt;
++töm(): void
++taBortAllaAvEnVara(Vara v): Integer
++printKvitto - hashmapen + rabatter + totalt pris
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>430</x>
+      <y>440</y>
+      <w>150</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>kassa::Vara
+--
+-namn: String
+-pris: Pengar
+--
++Vara(String namn, Pengar pris): ctor
++getNamn(): String
++getPris(): Pengar
++hashCode(): int
++equals(Object obj): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>850</x>
+      <y>450</y>
+      <w>480</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>kassa::Rabatt
+--
+Hashmap: Vara [Hashmap[Antal][Rabatt]]
+--
+privat konstruktor
+public HashMap&lt;Vara, Pengar&gt; räknaUtRabatt (HashMap&lt;Vara, Integer&gt;)
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>220</x>
+      <y>450</y>
+      <w>230</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to&gt;</panel_attributes>
+    <additional_attributes>30;50;210;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>470</x>
+      <y>300</y>
+      <w>180</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to&gt;</panel_attributes>
+    <additional_attributes>30;140;160;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>550</x>
+      <y>440</y>
+      <w>320</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to&gt;</panel_attributes>
+    <additional_attributes>30;50;300;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>820</x>
+      <y>300</y>
+      <w>130</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to&gt;</panel_attributes>
+    <additional_attributes>70;30;70;150</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>620</x>
+      <y>720</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SimpleClass</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>500</x>
+      <y>720</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SimpleClass</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>380</x>
+      <y>720</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SimpleClass</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>500</x>
+      <y>590</y>
+      <w>50</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;130</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>430</x>
+      <y>590</y>
+      <w>50</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;130</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>530</x>
+      <y>590</y>
+      <w>120</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;100;130</additional_attributes>
+  </element>
+</diagram>
