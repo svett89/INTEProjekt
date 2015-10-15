@@ -1,6 +1,5 @@
 package kassa;
 import static org.junit.Assert.*;
-<<<<<<< HEAD
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,7 +17,7 @@ public class PengarTest {
     // Använder här Currency klassens to.string för att se om 
     @Test
     public void testValuta() {
-=======
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -41,13 +40,11 @@ public class Pengartest {
     // Använder här Currency klassens to.string för att se om valutan man skickar in stämmer, PASS
     @Test
     public void testaValuta() {
->>>>>>> refs/remotes/origin/Kvitto+Kvittotest
         assertEquals("EUR",testPengar.getValuta().toString());
     }
 
     // Testar beloppet, Bigdecimal kan inte sättas in i expected parametern så man får skapa den innan.
     @Test
-<<<<<<< HEAD
     public void testBelopp() {
         BigDecimal expected = new BigDecimal("3266.52");
         assertEquals(testPengar.getBelopp(),expected);
@@ -73,7 +70,7 @@ public class Pengartest {
         BigDecimal zero = new BigDecimal("0");
         Money testAmountZero = new Money(zero,Currency.getInstance("SEK"),RoundingMode.UP);
         assertEquals(testAmountZero.isNoll(),true);
-=======
+        
     public void testaBelopp() {
         BigDecimal expected = new BigDecimal("3266.52");
         assertEquals(expected,testPengar.getBelopp());
@@ -99,25 +96,20 @@ public class Pengartest {
         BigDecimal noll = new BigDecimal("0");
         Pengar testaPengarNoll = new Pengar(noll,Currency.getInstance("SEK"),RoundingMode.UP);
         assertEquals(true, testaPengarNoll.ärNoll());
->>>>>>> refs/remotes/origin/Kvitto+Kvittotest
     }
     
     //Ej klar
     @Test
     public void testAdderaPengar(){
-<<<<<<< HEAD
-=======
         Pengar p1 = skapaPengar(BigDecimal.valueOf(2.0));
         Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
         
         assertEquals(new BigDecimal("5.0"), p1.plus(p2).getBelopp());
->>>>>>> refs/remotes/origin/Kvitto+Kvittotest
         
     }
     
     @Test
     public void testSubtraheraPengar(){
-<<<<<<< HEAD
         
     }
     @Test
@@ -129,7 +121,6 @@ public class Pengartest {
     public void testSummaAvPengar(){
         
     }
-=======
         Pengar p1 = skapaPengar(BigDecimal.valueOf(5.0));
         Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
        
@@ -144,8 +135,6 @@ public class Pengartest {
         assertEquals(new BigDecimal("15.0"), p1.gånger(faktor).getBelopp());
         
     }
-  
->>>>>>> refs/remotes/origin/Kvitto+Kvittotest
     
 }
 
