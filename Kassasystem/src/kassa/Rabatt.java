@@ -11,13 +11,12 @@ public final class Rabatt {
 	
 	}
 	
-	public static void addRabatt(Vara vara, HashMap<Integer, Pengar> antalRabattIPengarMap) {
-		
+	public static void addRabatt(Vara vara, HashMap<Integer, Pengar> antalOchRabattMap) {
+		rabattMap.put(vara, antalOchRabattMap);
 	}
 
-	public static HashMap<Vara, HashMap<String, Integer>> getRabatter(Kvitto kvitto) {
+	public static void räknaUtRabatter(Kvitto kvitto) {
 		
-		return null;
 	}
 
 }

@@ -18,6 +18,11 @@ public class Kvittotest {
 	private Vara skapaTomV(){
 		return new Vara("", pris);
 	}
+	private Vara skapaVMedPris(String beskrivning, int pris){
+		BigDecimal bd = new BigDecimal(pris);
+		Pengar varuPris = new Pengar(bd, valuta, RoundingMode.HALF_EVEN);
+		return new Vara(beskrivning, varuPris); 
+	}
 	
 	@Test
 	public void testaLäggTillVarorIKonstruktor(){
@@ -127,5 +132,16 @@ public class Kvittotest {
 			assert(k.getTotalMängdVaror() == 1);
 		}
 		assert(k.getTotalMängdVaror() == randomInt);
+	}
+	
+	@Test
+	public void testaRäknaUtPris(){
+		k.töm();
+		Vara v1 = skapaVMedPris("Mössa", 100);
+		Vara v2 = skapaVMedPris("Vante", 50);
+		k.läggTillVara(v1, 2);
+		k.läggTillVara(v2, 1);
+		BigDecimal expectedTotalPris = new BigDecimal(250);
+		assert(k.getPrisUtanRabatt().getBelopp().equals(expectedTotalPris));
 	}
 }

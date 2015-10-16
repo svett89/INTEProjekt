@@ -32,8 +32,7 @@ public class Pengar {
     	this.belopp = belopp;
     }
     
-
-    public BigDecimal getBelopp(){
+	public BigDecimal getBelopp(){
         return belopp;
     }
     

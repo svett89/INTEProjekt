@@ -74,5 +74,14 @@ public class Kvitto {
 	public Integer taBortAllaAvEnVara(Vara v){
 		return varuMap.remove(v);
 	}
-
+	
+	public Pengar getPrisUtanRabatt(){
+		
+		for (Vara v : varuMap.keySet()){
+			for(int i = 0; i<varuMap.get(v); i++){
+				
+			}
+		}
+	}
+	
 }
