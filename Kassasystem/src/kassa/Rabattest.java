@@ -1,8 +1,12 @@
 package kassa;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Rabattest {
 	
@@ -16,8 +20,12 @@ public class Rabattest {
 	
 	@Test
 	public void testaOmVarorKanLäggasTill(){
-		Rabatt.addVara(v1);
-		assertEquals(Rabatt);
+		Map<Integer, BigDecimal> h1 = new HashMap<Integer, BigDecimal>();
+		//new BigDecimal(100) innebär att om man köper 3 cyklar får man en av dem gratis
+		BigDecimal p4 = new BigDecimal(100);
+		h1.put(3, p4);
+		Rabatt.addVara(v1, h1);
+		assertEquals(Rabatt.getRabatter().get(v1).get(3), p4);
 	}
 	
 
