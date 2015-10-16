@@ -20,11 +20,13 @@ public class Rabattest {
 	
 	@Test
 	public void testaOmVarorKanLäggasTill(){
-		Map<Integer, Pengar> h1 = new HashMap<Integer, Pengar>();
+		HashMap<Integer, Pengar> h1 = new HashMap<Integer, Pengar>();
 		//new BigDecimal(100) innebär att om man köper 3 cyklar får man en av dem gratis
 		Pengar p4 = new Pengar(100);
 		h1.put(3, p4);
-		Rabatt.addVara(v1, h1);
+		Rabatt.addRabatt(v1, h1);
+		k1.läggTillVara(v1, 3);
+		assert(k1.getPrisUtanRabatt() == 300);
 		assertEquals(Rabatt.getRabatter().get(v1).get(3), p4);
 	}
 	
