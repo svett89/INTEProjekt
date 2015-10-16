@@ -1,6 +1,5 @@
 package kassa;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 import java.math.*;
 
@@ -21,9 +20,16 @@ public class Pengar {
     public void setBelopp(BigDecimal belopp){
     	this.belopp = belopp;
     }
+    //Skapar SEK automatiskt
+    public Pengar(int belopp){
+        BigDecimal bd = new BigDecimal(belopp);
+    	this.belopp = bd;
+        this.valuta = Currency.getInstance("SEK");
+        this.avrundningsMode = RoundingMode.HALF_EVEN;
+    }
     
-    public Pengar(BigDecimal belopp){
-        this.belopp=belopp;
+    private Pengar(BigDecimal belopp){
+    	this.belopp = belopp;
     }
     
 

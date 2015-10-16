@@ -7,14 +7,14 @@ import java.math.*;
 
 public class Kvittotest {
 	
-	//Hjälpmetod som skapar tomt kvitto (meningslös, fixa till).
+	//Hjälpmetod som skapar tomt kvitto.
 	private Kvitto skapaTomtK(){
 		return new Kvitto();
 	}
 	private BigDecimal värde = new BigDecimal(10);
 	private Currency valuta = Currency.getInstance("SEK");
 	private Pengar pris = new Pengar(värde, valuta, RoundingMode.HALF_EVEN);
-	//Hjälpmetod som skapar en tom vara (meningslös, fixa till).
+	//Hjälpmetod som skapar en tom vara.
 	private Vara skapaTomV(){
 		return new Vara("", pris);
 	}
