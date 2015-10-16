@@ -2,6 +2,12 @@
 Thumbs.db
 ehthumbs.db
 
+#Ignore Everything
+*
+#But not these files
+!/Kassasystem/src/
+!/Kassasystem/src/*
+
 # Folder config file
 Desktop.ini
 
