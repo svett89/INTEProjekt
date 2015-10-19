@@ -17,9 +17,7 @@ public class Pengar {
         this.avrundningsMode = avrundningsMode;
   
     }
-    public void setBelopp(BigDecimal belopp){
-    	this.belopp = belopp;
-    }
+    
     //Skapar SEK automatiskt
     public Pengar(int belopp){
         BigDecimal bd = new BigDecimal(belopp);
@@ -28,7 +26,13 @@ public class Pengar {
         this.avrundningsMode = RoundingMode.HALF_EVEN;
     }
     
-    private Pengar(BigDecimal belopp){
+    public Pengar(BigDecimal belopp){
+    	this.belopp = belopp;
+    	this.valuta = Currency.getInstance("SEK");
+        this.avrundningsMode = RoundingMode.HALF_EVEN;
+    }
+    
+    public void setBelopp(BigDecimal belopp){
     	this.belopp = belopp;
     }
     
@@ -91,7 +95,7 @@ public class Pengar {
    		if (belopp == null) {
    			if (other.belopp != null)
    				return false;
-   		} else if (!belopp.equals(other.belopp))
+   		} else if (belopp.compareTo(other.belopp) != 0)
    			return false;
    		if (valuta == null) {
    			if (other.valuta != null)

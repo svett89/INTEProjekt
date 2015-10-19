@@ -4,15 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
-import java.math.*;
 public class Rabattest {
 	
 	Kvitto k1 = new Kvitto();
 	Pengar p1 = new Pengar(100);
-	Pengar p2 = new Pengar(155);
+	Pengar p2 = new Pengar(150);
 	Pengar p3 = new Pengar(288);
 	Vara v1 = new Vara("cykel", p1);
 	Vara v2 = new Vara("bil", p2);
@@ -25,9 +22,15 @@ public class Rabattest {
 		Pengar p4 = new Pengar(100);
 		h1.put(3, p4);
 		Rabatt.addRabatt(v1, h1);
-		k1.läggTillVara(v1, 3);
-		assert(k1.getPrisUtanRabatt() == 300);
-		assertEquals(Rabatt.getRabatter().get(v1).get(3), p4);
+		assertEquals(Rabatt.getRabatter(v1, 3), p4);
+	}
+	@Test
+	public void testaTaInKvitto(){
+		k1.läggTillVara(v2, 5);
+		HashMap<Integer, Pengar> h2 = new HashMap<Integer, Pengar>();
+		h2.put(3, new Pengar(200));
+		Rabatt.addRabatt(v2, h2);
+		assertEquals(new Pengar(550), k1.getPris());
 	}
 	
 

@@ -32,7 +32,7 @@ public class Kvittotest {
 		Kvitto k = new Kvitto(v1, v2);
 		assertTrue(k.varaFinns(v1));
 		assertTrue(k.varaFinns(v2));
-		assert(k.getTotalMängdVaror() == 2);
+		assertTrue(k.getTotalMängdVaror() == 2);
 	}
 	
 	@Test
@@ -40,20 +40,20 @@ public class Kvittotest {
 		Kvitto k = skapaTomtK();
 		Vara v = skapaTomV();
 		k.läggTillVara(skapaTomV(), 1);
-		assert(k.varaFinns(v));
+		assertTrue(k.varaFinns(v));
 		
 		for(int i = 0; i<7; i++){
 			k.läggTillVara(skapaTomV());
 		}
-		assert(k.getTotalMängdVaror() == 8);
+		assertTrue(k.getTotalMängdVaror() == 8);
 	}
 	
 	public void testaLäggTillVarorIMetod(){
 		Kvitto k = skapaTomtK();
 		Vara[] varor = new Vara[5];
-		assert(k.getTotalMängdVaror() == 0);
+		assertTrue(k.getTotalMängdVaror() == 0);
 		k.läggTillVaror(varor);
-		assert(k.getTotalMängdVaror() == 5);
+		assertTrue(k.getTotalMängdVaror() == 5);
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class Kvittotest {
 		}
 		//Lägg till samlingen (ArrayList i detta fall) och jämför
 		k.läggTillVarorFrånSamling(varuSamling);
-		assert(k.getTotalMängdVaror() == 6);
+		assertTrue(k.getTotalMängdVaror() == 6);
 		Set<Vara> varuSet = new HashSet<Vara>(varuSamling);
 		assertEquals(k.getVaruSet(), varuSet);
 	}
@@ -77,11 +77,11 @@ public class Kvittotest {
 		for(int i = 0; i<5; i++){
 			k.läggTillVara(skapaTomV());
 		}
-		assert(k.getTotalMängdVaror() == 5);
+		assertTrue(k.getTotalMängdVaror() == 5);
 		
 		k.töm();
 		
-		assert(k.getTotalMängdVaror() == 0);
+		assertTrue(k.getTotalMängdVaror() == 0);
 	}
 	
 	//Hjälpmetod som lägger till 10 varor (används inte i tester som testar varutilläggning)
@@ -98,9 +98,9 @@ public class Kvittotest {
 		Kvitto k = new Kvitto();
 		Vara v = new Vara("", pris);
 		läggTillVaror(k);
-		assert(k.getTotalMängdVaror() == 10);
+		assertTrue(k.getTotalMängdVaror() == 10);
 		k.taBortAllaAvEnVara(v);
-		assert(k.getTotalMängdVaror() == 9);
+		assertTrue(k.getTotalMängdVaror() == 0);
 	}
 	
 	@Test
@@ -111,9 +111,9 @@ public class Kvittotest {
 		Vara v22 = new Vara("V2", pris);
 		Vara v3 = new Vara("V3", pris);
 		k.läggTillVaror(v1, v2, v22, v3);
-		assert(k.getTotalMängdVaror() == 4);
+		assertTrue(k.getTotalMängdVaror() == 4);
 		k.taBortAllaAvEnVara(v2);
-		assert(k.getTotalMängdVaror() == 2);
+		assertTrue(k.getTotalMängdVaror() == 2);
 		
 	}
 	
@@ -129,9 +129,8 @@ public class Kvittotest {
 		for(int i = 0; i < randomInt; i++){
 			Vara v = new Vara(""+randomInt, pris);
 			k.läggTillVara(v);
-			assert(k.getTotalMängdVaror() == 1);
 		}
-		assert(k.getTotalMängdVaror() == randomInt);
+		assertTrue(k.getTotalMängdVaror() == randomInt);
 	}
 	
 	@Test
@@ -141,7 +140,7 @@ public class Kvittotest {
 		Vara v2 = skapaVMedPris("Vante", 50);
 		k.läggTillVara(v1, 2);
 		k.läggTillVara(v2, 1);
-		BigDecimal expectedTotalPris = new BigDecimal(250);
-		assert(k.getPrisUtanRabatt().getBelopp().equals(expectedTotalPris));
+		Pengar expectedTotalPris = new Pengar(250);
+		assertTrue(k.getPris().equals(expectedTotalPris));
 	}
 }
