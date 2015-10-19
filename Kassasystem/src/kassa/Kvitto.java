@@ -12,6 +12,10 @@ public class Kvitto {
 		läggTillVaror(varor);
 	}
 	
+	public HashMap<Vara, Integer> getVaruMap(){
+		return varuMap;
+	}
+	
 	public void läggTillVara(Vara v, int antal){
 		if(varuMap.containsKey(v)){
 			varuMap.put(v, (varuMap.get(v)+antal));
@@ -75,13 +79,18 @@ public class Kvitto {
 		return varuMap.remove(v);
 	}
 	
-	public Pengar getPrisUtanRabatt(){
-		
+	public Pengar getPris(){
+		Pengar totalPris = new Pengar(0);
 		for (Vara v : varuMap.keySet()){
 			for(int i = 0; i<varuMap.get(v); i++){
-				
+				Pengar prisFörVara = v.getPris();
+				totalPris = totalPris.plus(prisFörVara);
 			}
 		}
+		Pengar rabatt = Rabatt.räknaUtRabatter(this, totalPris);
+		if(rabatt != null){
+			totalPris = totalPris.minus(rabatt);
+		}
+		return totalPris;
 	}
-	
 }
