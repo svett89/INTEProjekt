@@ -6,8 +6,8 @@ public class Kvitto {
 	private HashMap<Vara, Integer> varuMap = new HashMap<Vara, Integer>();
 	
 	public Kvitto(){
-		//Tom konstruktor, bör behållas?
 	}
+	
 	public Kvitto(Vara... varor){
 		läggTillVaror(varor);
 	}

@@ -1,14 +1,12 @@
 package kassa;
-import java.math.*;
 
 public class Vara {
 	private String namn;
-	//Ändra till pengar
 	private Pengar pris;
 
 	public Vara(String namn, Pengar pris) {
-		//Kollar inte maxvärde! Fixa!
 		if (pris.ärNegativBelopp()) {
+			//Meddelande till exception
 			throw new IllegalArgumentException();
 		}
 		this.namn = namn;
@@ -18,7 +16,7 @@ public class Vara {
 	public String getNamn() {
 		return namn;
 	}
-	//Ändra till pengar
+
 	public Pengar getPris() {
 		return pris;
 	}
