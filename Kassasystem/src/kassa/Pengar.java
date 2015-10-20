@@ -13,7 +13,7 @@ public class Pengar {
     
     public Pengar(BigDecimal belopp, Currency valuta, RoundingMode avrundningsMode){
         
-        this.belopp = belopp;
+        this.belopp = belopp.setScale(valuta.getDefaultFractionDigits(), avrundningsMode);
         this.valuta = valuta;
         this.avrundningsMode = avrundningsMode;
   
