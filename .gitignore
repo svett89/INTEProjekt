@@ -9,6 +9,7 @@ ehthumbs.db
 !/Kassasystem/src/*
 !/*.png
 !/*.uxf
+!/*.pdf
 # Folder config file
 Desktop.ini
 
