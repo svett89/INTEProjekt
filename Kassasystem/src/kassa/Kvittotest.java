@@ -14,14 +14,16 @@ public class Kvittotest {
 	private BigDecimal värde = new BigDecimal(10);
 	private Currency valuta = Currency.getInstance("SEK");
 	private Pengar pris = new Pengar(värde, valuta, RoundingMode.HALF_EVEN);
+	private Märke märke = new Märke("");
+	private int mängd = 0;
 	//Hjälpmetod som skapar en tom vara.
 	private Vara skapaTomV(){
-		return new Vara("", pris);
+		return new Vara("", new Märke(""), 0, pris);
 	}
-	private Vara skapaVMedPris(String beskrivning, int pris){
+	private Vara skapaVMedPris(String beskrivning, Märke märke, int mängd, int pris){
 		BigDecimal bd = new BigDecimal(pris);
 		Pengar varuPris = new Pengar(bd, valuta, RoundingMode.HALF_EVEN);
-		return new Vara(beskrivning, varuPris); 
+		return new Vara(beskrivning, märke, mängd, varuPris); 
 	}
 	
 	@Test
@@ -96,7 +98,7 @@ public class Kvittotest {
 		BigDecimal bd = new BigDecimal(30);
 		pris.setBelopp(bd);
 		Kvitto k = new Kvitto();
-		Vara v = new Vara("", pris);
+		Vara v = new Vara("", märke, mängd, pris);
 		läggTillVaror(k);
 		assertTrue(k.getTotalMängdVaror() == 10);
 		k.taBortAllaAvEnVara(v);
@@ -106,10 +108,10 @@ public class Kvittotest {
 	@Test
 	public void testaTaBortOchLäggTill(){
 		Kvitto k = new Kvitto();
-		Vara v1 = new Vara("V1", pris);
-		Vara v2 = new Vara("V2", pris);
-		Vara v22 = new Vara("V2", pris);
-		Vara v3 = new Vara("V3", pris);
+		Vara v1 = new Vara("V1", märke, mängd, pris);
+		Vara v2 = new Vara("V2", märke, mängd, pris);
+		Vara v22 = new Vara("V2", märke, mängd, pris);
+		Vara v3 = new Vara("V3", märke, mängd, pris);
 		k.läggTillVaror(v1, v2, v22, v3);
 		assertTrue(k.getTotalMängdVaror() == 4);
 		k.taBortAllaAvEnVara(v2);
@@ -127,7 +129,7 @@ public class Kvittotest {
 		int min = 1;
 		int randomInt = min + slump.nextInt(999);
 		for(int i = 0; i < randomInt; i++){
-			Vara v = new Vara(""+randomInt, pris);
+			Vara v = new Vara(""+randomInt, märke, mängd, pris);
 			k.läggTillVara(v);
 		}
 		assertTrue(k.getTotalMängdVaror() == randomInt);
@@ -136,8 +138,8 @@ public class Kvittotest {
 	@Test
 	public void testaRäknaUtPris(){
 		k.töm();
-		Vara v1 = skapaVMedPris("Mössa", 100);
-		Vara v2 = skapaVMedPris("Vante", 50);
+		Vara v1 = skapaVMedPris("Mössa", märke, mängd, 100);
+		Vara v2 = skapaVMedPris("Vante", märke, mängd, 50);
 		k.läggTillVara(v1, 2);
 		k.läggTillVara(v2, 1);
 		Pengar expectedTotalPris = new Pengar(250);
