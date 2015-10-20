@@ -7,8 +7,8 @@ ehthumbs.db
 #But not these files
 !/Kassasystem/src/
 !/Kassasystem/src/*
-!/.uxf
-!/.png
+!/*.png
+!/*.uxf
 # Folder config file
 Desktop.ini
 
