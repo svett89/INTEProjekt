@@ -15,26 +15,27 @@ public class Pengartest {
     }
     
     
-    BigDecimal belopp = new BigDecimal("3266.52");
-    Pengar testPengar = new Pengar(belopp,Currency.getInstance("EUR"),RoundingMode.UP);   
+    BigDecimal belopp = new BigDecimal("326.125");
+    
+    Pengar testPengar = new Pengar(belopp,Currency.getInstance("EUR"),RoundingMode.HALF_UP);   
   
     
     // Använder här Currency klassens to.string för att se om valutan man skickar in stämmer, PASS
     @Test
-    public void testaValuta() {
-        assertEquals("EUR",testPengar.getValuta().toString());
+    public void testaValuta() {      
+    	assertEquals("EUR",testPengar.getValuta().toString());
     }
 
     // Testar beloppet, Bigdecimal kan inte sättas in i expected parametern så man får skapa den innan.
     @Test
     public void testaBelopp() {
-        BigDecimal expected = new BigDecimal("3266.52");
+        BigDecimal expected = new BigDecimal("326.13");
         assertEquals(expected,testPengar.getBelopp());
     }
     
     @Test
     public void testaAvrundingStil(){
-        assertEquals(RoundingMode.UP, testPengar.getAvrundningsMode());
+        assertEquals(RoundingMode.HALF_UP, testPengar.getAvrundningsMode());
     }
     
     @Test
