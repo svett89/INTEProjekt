@@ -170,7 +170,8 @@ public class Kvittotest {
 	public void testaMinskaNullVara(){
 		k.taBortVaror(null, 345);
 	}
-	//Lägger till och tar bort slumpmässigt många varor av olika typer mellan 1-1000
+	//Lägger till och tar bort slumpmässigt varor 
+	//av upp till 1000 olika typer upp till 10 gånger var
 	@Test
 	public void slumpTilläggOchBorttag(){
 		int expectedTotalAntal = 0;
@@ -203,6 +204,6 @@ public class Kvittotest {
 		k.läggTillVara(v1, 2);
 		k.läggTillVara(v2, 1);
 		Pengar expectedTotalPris = new Pengar(250);
-		assertEquals(expectedTotalPris, k.getPris());
+		assertEquals(expectedTotalPris, k.getPrisUtanRabatt());
 	}
 }

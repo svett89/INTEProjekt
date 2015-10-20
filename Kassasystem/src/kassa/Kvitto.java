@@ -128,7 +128,7 @@ public class Kvitto {
 		
 	}
 	
-	public Pengar getPris(){
+	public Pengar getPrisUtanRabatt(){
 		Pengar totalPris = new Pengar(0);
 		for (Vara v : varuMap.keySet()){
 			Pengar prisFörVara = v.getPris();
