@@ -1,6 +1,5 @@
 package kassa;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 import java.math.*;
 
@@ -18,16 +17,26 @@ public class Pengar {
         this.avrundningsMode = avrundningsMode;
   
     }
+    
+    //Skapar SEK automatiskt
+    public Pengar(int belopp){
+        BigDecimal bd = new BigDecimal(belopp);
+    	this.belopp = bd;
+        this.valuta = Currency.getInstance("SEK");
+        this.avrundningsMode = RoundingMode.HALF_EVEN;
+    }
+    
+    public Pengar(BigDecimal belopp){
+    	this.belopp = belopp;
+    	this.valuta = Currency.getInstance("SEK");
+        this.avrundningsMode = RoundingMode.HALF_EVEN;
+    }
+    
     public void setBelopp(BigDecimal belopp){
     	this.belopp = belopp;
     }
     
-    public Pengar(BigDecimal belopp){
-        this.belopp=belopp;
-    }
-    
-
-    public BigDecimal getBelopp(){
+	public BigDecimal getBelopp(){
         return belopp;
     }
     
@@ -86,7 +95,7 @@ public class Pengar {
    		if (belopp == null) {
    			if (other.belopp != null)
    				return false;
-   		} else if (!belopp.equals(other.belopp))
+   		} else if (belopp.compareTo(other.belopp) != 0)
    			return false;
    		if (valuta == null) {
    			if (other.valuta != null)
