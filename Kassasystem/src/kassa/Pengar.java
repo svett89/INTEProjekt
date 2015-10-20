@@ -18,24 +18,26 @@ public class Pengar {
   
     }
     
-    //Skapar SEK automatiskt
+    
+    //Denna konstruktor gör exakt samma sak som den under, bara att den tar in en int och används på andra ställen.
     public Pengar(int belopp){
         BigDecimal bd = new BigDecimal(belopp);
-    	this.belopp = bd;
-        this.valuta = Currency.getInstance("SEK");
-        this.avrundningsMode = RoundingMode.HALF_EVEN;
+        this.valuta= Currency.getInstance("SEK");
+        this.avrundningsMode=RoundingMode.HALF_UP;
+        this.belopp = bd.setScale(this.valuta.getDefaultFractionDigits(), this.avrundningsMode);
     }
-    
+
+    // Skapa SEK automatiskt
     public Pengar(BigDecimal belopp){
-    	this.belopp = belopp;
     	this.valuta = Currency.getInstance("SEK");
-        this.avrundningsMode = RoundingMode.HALF_EVEN;
+        this.avrundningsMode = RoundingMode.HALF_UP;
+        this.belopp = belopp.setScale(this.valuta.getDefaultFractionDigits(), this.avrundningsMode);
     }
-    
+    /* Skall antagligen tas bort
     public void setBelopp(BigDecimal belopp){
     	this.belopp = belopp;
     }
-    
+    */
 	public BigDecimal getBelopp(){
         return belopp;
     }
@@ -59,20 +61,36 @@ public class Pengar {
 	public boolean ärNoll() {
         return belopp.compareTo(BigDecimal.ZERO) == 0;
     }
+	
     public Pengar gånger(int gånger) {
         BigDecimal faktor = new BigDecimal(gånger);
-        return new Pengar(belopp.multiply(faktor));
+        belopp = belopp.multiply(faktor);
+        return new Pengar(belopp,valuta,avrundningsMode);
     }
+    
+    public Pengar delaMedInt(int talAttDelaMed){
+        BigDecimal faktor = new BigDecimal(talAttDelaMed);
+        belopp = belopp.divide(faktor, avrundningsMode);
+        return new Pengar(belopp,valuta,avrundningsMode);
+    }
+    
     public Pengar minus(Pengar p2) {
-        return new Pengar(belopp.subtract(p2.belopp));
+        belopp = belopp.subtract(p2.belopp);
+        return new Pengar(belopp,valuta,avrundningsMode);
         
     }
     public Pengar plus(Pengar p2) {
-        return new Pengar(belopp.add(p2.belopp));
+        belopp = belopp.add(p2.belopp);
+        return new Pengar(belopp,valuta,avrundningsMode);
     }
+    
+    public void setBelopp(BigDecimal belopp){
+        this.belopp = belopp;
+    }
+    
   
     public String toString(){
-        return belopp.toPlainString();
+        return belopp.toPlainString()+" " +valuta.getSymbol();
       }
     
     @Override

@@ -17,19 +17,20 @@ public class Pengartest {
     
     BigDecimal belopp = new BigDecimal("326.125");
     
-    Pengar testPengar = new Pengar(belopp,Currency.getInstance("EUR"),RoundingMode.HALF_UP);   
+    Pengar testPengar = new Pengar(belopp,Currency.getInstance("USD"),RoundingMode.HALF_UP);   
   
     
     // Använder här Currency klassens to.string för att se om valutan man skickar in stämmer, PASS
     @Test
     public void testaValuta() {      
-    	assertEquals("EUR",testPengar.getValuta().toString());
+    	assertEquals("USD",testPengar.getValuta().toString());
     }
 
     // Testar beloppet, Bigdecimal kan inte sättas in i expected parametern så man får skapa den innan.
     @Test
     public void testaBelopp() {
         BigDecimal expected = new BigDecimal("326.13");
+        System.out.println(testPengar.toString());
         assertEquals(expected,testPengar.getBelopp());
     }
     
@@ -61,25 +62,31 @@ public class Pengartest {
         Pengar p1 = skapaPengar(BigDecimal.valueOf(2.0));
         Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
         
-        assertEquals(new BigDecimal("5.0"), p1.plus(p2).getBelopp());
+        assertEquals(new BigDecimal("5.00"), p1.plus(p2).getBelopp());
         
     }
     
     @Test
-    public void testSubtraheraPengar(){
+    public void testaSubtraheraPengar(){
         Pengar p1 = skapaPengar(BigDecimal.valueOf(5.0));
         Pengar p2 = skapaPengar(BigDecimal.valueOf(3.0));
        
-        //p1.minus(p2).getBelopp();
-
-        assertEquals(new BigDecimal("2.0"), p1.minus(p2).getBelopp() );
+        
+        assertEquals(new BigDecimal("2.00"), p1.minus(p2).getBelopp() );
     }
     @Test
-    public void testMultipliceraPengar(){
+    public void testaMultipliceraPengar(){
         Pengar p1 = skapaPengar(BigDecimal.valueOf(5.0));
         int faktor = 3;
-        assertEquals(new BigDecimal("15.0"), p1.gånger(faktor).getBelopp());
+        assertEquals(new BigDecimal("15.00"), p1.gånger(faktor).getBelopp());
         
+    }
+    
+    @Test
+    public void testaDivideraPengar(){
+        Pengar p1 = skapaPengar(BigDecimal.valueOf(1.0));
+        int faktor = 3;
+        assertEquals(new BigDecimal("0.33"), p1.delaMedInt(faktor).getBelopp());
     }
   
     
