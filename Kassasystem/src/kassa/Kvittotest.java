@@ -7,140 +7,202 @@ import java.math.*;
 
 public class Kvittotest {
 	
-	//Hjälpmetod som skapar tomt kvitto.
-	private Kvitto skapaTomtK(){
-		return new Kvitto();
-	}
-	private BigDecimal värde = new BigDecimal(10);
-	private Currency valuta = Currency.getInstance("SEK");
-	private Pengar pris = new Pengar(värde, valuta, RoundingMode.HALF_EVEN);
-	//Hjälpmetod som skapar en tom vara.
-	private Vara skapaTomV(){
-		return new Vara("", pris);
-	}
-	private Vara skapaVMedPris(String beskrivning, int pris){
-		BigDecimal bd = new BigDecimal(pris);
-		Pengar varuPris = new Pengar(bd, valuta, RoundingMode.HALF_EVEN);
+	//Tomt kvitto som tester kan jobba på
+	private Kvitto k = new Kvitto();
+	
+	//Hjälpmetod för att skapa vara
+	private Vara skapaVara(String beskrivning, BigDecimal pris){
+		Currency valuta = Currency.getInstance("SEK");
+		Pengar varuPris = new Pengar(pris, valuta, RoundingMode.HALF_UP);
 		return new Vara(beskrivning, varuPris); 
+	}
+	
+	//Hjälpmetod för att skapa BigDecimal
+	private BigDecimal bigDec(String värde){
+		return new BigDecimal(värde);
 	}
 	
 	@Test
 	public void testaLäggTillVarorIKonstruktor(){
-		//Vara kommer kanske bli abstrakt i slutändan! 
-		Vara v1 = skapaTomV();
-		Vara v2 = skapaTomV();
+		Vara v1 = skapaVara("V1", bigDec("100"));
+		Vara v2 = skapaVara("V2", bigDec("200"));
 		Kvitto k = new Kvitto(v1, v2);
 		assertTrue(k.varaFinns(v1));
 		assertTrue(k.varaFinns(v2));
-		assertTrue(k.getTotalMängdVaror() == 2);
+		assertEquals(2, k.getTotalMängdVaror());
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillNullIKonstruktor(){
+		Vara v1 = null;
+		Vara v2 = null;
+		Kvitto k = new Kvitto(v1, v2);
+	}
 	@Test
 	public void testaLäggTillVaraIMetod(){
-		Kvitto k = skapaTomtK();
-		Vara v = skapaTomV();
-		k.läggTillVara(skapaTomV(), 1);
+		Vara v = skapaVara("V", bigDec("100"));
+		k.läggTillVara(v, 1);
 		assertTrue(k.varaFinns(v));
-		
 		for(int i = 0; i<7; i++){
-			k.läggTillVara(skapaTomV());
+			k.läggTillVara(skapaVara("V"+i, bigDec(""+i)));
 		}
-		assertTrue(k.getTotalMängdVaror() == 8);
+		assertEquals(8, k.getTotalMängdVaror());
 	}
 	
-	public void testaLäggTillVarorIMetod(){
-		Kvitto k = skapaTomtK();
-		Vara[] varor = new Vara[5];
-		assertTrue(k.getTotalMängdVaror() == 0);
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillNullIMetod(){
+		Vara v = null;
+		k.läggTillVara(v);
+	}
+	
+	@Test 
+	public void testaLäggTillVarorIMetodMedArray(){
+		Vara v1 = skapaVara("V1", bigDec("100"));
+		Vara v2 = skapaVara("V2", bigDec("200"));
+		Vara v3 = skapaVara("V3", bigDec("300"));
+		Vara[] varor = {v1, v2, v3};
+		assertEquals(0, k.getTotalMängdVaror());
 		k.läggTillVaror(varor);
-		assertTrue(k.getTotalMängdVaror() == 5);
+		assertEquals(3, k.getTotalMängdVaror());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillTomArray(){
+		Vara[] varor = new Vara[5];
+		k.läggTillVaror(varor);
 	}
 	
 	@Test
 	public void testaLäggTillFlerVarorFrånLista(){
-		Kvitto k = skapaTomtK();
 		ArrayList<Vara> varuSamling = new ArrayList<Vara>();
 		//Lägg till 6 varor
 		for(int i = 0; i<6; i++){
-			varuSamling.add(skapaTomV());
+			varuSamling.add(skapaVara("V"+i, bigDec(""+i)));
 		}
 		//Lägg till samlingen (ArrayList i detta fall) och jämför
 		k.läggTillVarorFrånSamling(varuSamling);
-		assertTrue(k.getTotalMängdVaror() == 6);
+		assertEquals(6, k.getTotalMängdVaror());
 		Set<Vara> varuSet = new HashSet<Vara>(varuSamling);
 		assertEquals(k.getVaruSet(), varuSet);
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillFrånListaNärListaÄrNull(){
+		ArrayList<Vara> varuSamling = null;
+		k.läggTillVarorFrånSamling(varuSamling);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillFrånListaMedNullVärde(){
+		ArrayList<Vara> varuSamling = new ArrayList<Vara>();
+		Vara v = skapaVara("V", bigDec("2765"));
+		varuSamling.add(v);
+		varuSamling.add(null);
+		k.läggTillVarorFrånSamling(varuSamling);
+	}
+	
 	@Test
 	public void testaTömKvitto(){
-		Kvitto k = skapaTomtK();
 		for(int i = 0; i<5; i++){
-			k.läggTillVara(skapaTomV());
+			k.läggTillVara(skapaVara("V"+i, bigDec(""+i)));
 		}
-		assertTrue(k.getTotalMängdVaror() == 5);
+		assertEquals(5, k.getTotalMängdVaror());
 		
 		k.töm();
 		
-		assertTrue(k.getTotalMängdVaror() == 0);
+		assertEquals(0, k.getTotalMängdVaror());
 	}
 	
 	//Hjälpmetod som lägger till 10 varor (används inte i tester som testar varutilläggning)
 	private void läggTillVaror(Kvitto k){
 		for(int i = 0; i<10; i++){
-			k.läggTillVara(skapaTomV());
+			k.läggTillVara(skapaVara("V"+i, bigDec("1"+i)));
 		}
 	}
 	
 	@Test
-	public void testaTaBortVara(){
-		BigDecimal bd = new BigDecimal(30);
-		pris.setBelopp(bd);
-		Kvitto k = new Kvitto();
-		Vara v = new Vara("", pris);
+	public void testaTaBortAllaAvEnVara(){
+		Vara v0 = skapaVara("V0", bigDec("10"));
 		läggTillVaror(k);
-		assertTrue(k.getTotalMängdVaror() == 10);
-		k.taBortAllaAvEnVara(v);
-		assertTrue(k.getTotalMängdVaror() == 0);
+		assertEquals(10, k.getTotalMängdVaror());
+		assertTrue(k.taBortAllaAvEnVara(v0));
+		assertEquals(9, k.getTotalMängdVaror());
 	}
 	
 	@Test
-	public void testaTaBortOchLäggTill(){
-		Kvitto k = new Kvitto();
-		Vara v1 = new Vara("V1", pris);
-		Vara v2 = new Vara("V2", pris);
-		Vara v22 = new Vara("V2", pris);
-		Vara v3 = new Vara("V3", pris);
-		k.läggTillVaror(v1, v2, v22, v3);
-		assertTrue(k.getTotalMängdVaror() == 4);
-		k.taBortAllaAvEnVara(v2);
-		assertTrue(k.getTotalMängdVaror() == 2);
-		
+	public void testaTaBortVaraSomFinnsFleraAv(){
+		Vara v1 = skapaVara("V1", bigDec("30"));
+		k.läggTillVara(v1, 3);
+		assertTrue(k.taBortAllaAvEnVara(v1));
+		assertEquals(0, k.getTotalMängdVaror());
 	}
 	
-	private Kvitto k = new Kvitto();
-	
-	//Lägger till slumpmässigt många varor av olika typer mellan 1-1000
-	//OBS! Bedrövligt dålig just nu. Ska utöka och förbättra.
 	@Test
-	public void slumpTillägg(){
+	public void testaMinskaAntaletAvVara(){
+		Vara v = skapaVara("V1", bigDec("30"));
+		k.läggTillVara(v, 15);
+		k.taBortVaror(v, 7);
+		assertEquals(8, k.getTotalMängdVaror());
+	}
+	
+	@Test
+	public void testaTaBortSomInteFinns(){
+		läggTillVaror(k);
+		Vara v = skapaVara("Finns inte!", bigDec("10"));
+		assertFalse(k.taBortAllaAvEnVara(v));
+	}
+	
+	@Test
+	public void testaTaMinskaAntalAvVaraSomInteFinns(){
+		läggTillVaror(k);
+		Vara v = skapaVara("Finns inte nu heller!", bigDec("255"));
+		assertEquals(10, k.getTotalMängdVaror());
+		assertFalse(k.taBortVaror(v, 10));
+		assertEquals(10, k.getTotalMängdVaror());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaTaBortNullVara(){
+		k.taBortAllaAvEnVara(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaMinskaNullVara(){
+		k.taBortVaror(null, 345);
+	}
+	//Lägger till och tar bort slumpmässigt många varor av olika typer mellan 1-1000
+	@Test
+	public void slumpTilläggOchBorttag(){
+		int expectedTotalAntal = 0;
 		Random slump = new Random();
 		int min = 1;
 		int randomInt = min + slump.nextInt(999);
 		for(int i = 0; i < randomInt; i++){
-			Vara v = new Vara(""+randomInt, pris);
-			k.läggTillVara(v);
+			Vara v = skapaVara("V"+i, bigDec(""+slump.nextInt(1000)));
+			int antalSomLäggsTill = min + slump.nextInt(10);
+			k.läggTillVara(v, antalSomLäggsTill);
+			expectedTotalAntal += antalSomLäggsTill;
+			if(slump.nextBoolean()){
+				if(slump.nextBoolean()){
+					k.taBortVaror(v, antalSomLäggsTill % 3);
+					expectedTotalAntal -= antalSomLäggsTill % 3;
+				}else{
+					k.taBortAllaAvEnVara(v);
+					expectedTotalAntal -= antalSomLäggsTill;
+				}
+			}
 		}
-		assertTrue(k.getTotalMängdVaror() == randomInt);
+		assertEquals(expectedTotalAntal, k.getTotalMängdVaror());
 	}
 	
 	@Test
 	public void testaRäknaUtPris(){
 		k.töm();
-		Vara v1 = skapaVMedPris("Mössa", 100);
-		Vara v2 = skapaVMedPris("Vante", 50);
+		Vara v1 = skapaVara("V1", bigDec("100"));
+		Vara v2 = skapaVara("V2", bigDec("50"));
 		k.läggTillVara(v1, 2);
 		k.läggTillVara(v2, 1);
 		Pengar expectedTotalPris = new Pengar(250);
-		assertTrue(k.getPris().equals(expectedTotalPris));
+		assertEquals(expectedTotalPris, k.getPris());
 	}
 }

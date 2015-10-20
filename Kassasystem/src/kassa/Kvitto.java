@@ -16,34 +16,8 @@ public class Kvitto {
 		return varuMap;
 	}
 	
-	public void läggTillVara(Vara v, int antal){
-		if(varuMap.containsKey(v)){
-			varuMap.put(v, (varuMap.get(v)+antal));
-		}else{
-			varuMap.put(v, antal);
-		}
-	}
-	
-	public void läggTillVara(Vara v){
-		if(varuMap.containsKey(v)){
-			varuMap.put(v, (varuMap.get(v)+1));
-		}else{
-			varuMap.put(v, 1);
-		}
-	}
-	public void läggTillVaror(Vara ... varor){
-		for(Vara v : varor){
-			if(v != null && varuMap.containsKey(v)){
-				varuMap.put(v, (varuMap.get(v)+1));
-			}
-			else if(v != null){
-				varuMap.put(v, 1);
-			}
-		}
-	}
-	
-	public boolean varaFinns(Vara v){
-		return varuMap.containsKey(v) && varuMap.get(v) > 0;
+	public Set<Vara> getVaruSet(){
+		return varuMap.keySet();
 	}
 	
 	public int getTotalMängdVaror(){
@@ -55,41 +29,110 @@ public class Kvitto {
 		return total;
 	}
 	
+	public void läggTillVara(Vara v, int antal){
+		if(v != null){
+			if(antal <= 0){
+				throw new IllegalArgumentException("Antal måste vara större än 0");
+			}
+			if(varuMap.containsKey(v)){
+				varuMap.put(v, (varuMap.get(v)+antal));
+			}else{
+				varuMap.put(v, antal);
+			}
+		}else{
+			throw new IllegalArgumentException("Vara är null");
+		}
+	}
+	
+	public void läggTillVara(Vara v){
+		if(v != null){
+			if(varuMap.containsKey(v)){
+				varuMap.put(v, (varuMap.get(v)+1));
+			}else{
+				varuMap.put(v, 1);
+			}
+		}else{
+			throw new IllegalArgumentException("Vara är null");
+		}
+		
+	}
+	public void läggTillVaror(Vara ... varor){
+		if(varor.length <= 0){
+			throw new IllegalArgumentException("Arrayen med varor är tom");
+		}
+		for(Vara v : varor){
+			if(v != null && varuMap.containsKey(v)){
+				varuMap.put(v, (varuMap.get(v)+1));
+			}
+			else if(v != null){
+				varuMap.put(v, 1);
+			}else{
+				throw new IllegalArgumentException("Vara är null");
+			}
+		}
+	}
+	
+	public boolean varaFinns(Vara v){
+		return varuMap.containsKey(v) && varuMap.get(v) > 0;
+	}
+	
 	public void läggTillVarorFrånSamling(Collection<Vara> varuSamling){
+		if(varuSamling == null){
+			throw new IllegalArgumentException("Varusamling är null");
+		}else if(varuSamling.isEmpty()){
+			throw new IllegalArgumentException("Varusamling är tom");
+		}
 		for(Vara v : varuSamling){
 			if(v != null && varuMap.containsKey(v)){
 				varuMap.put(v, (varuMap.get(v)+1));
 			}
 			else if(v != null){
 				varuMap.put(v, 1);
+			}else{
+				throw new IllegalArgumentException("Samlingen innehåller null-värden");
 			}
 			
 		}
-	}
-	
-	public Set<Vara> getVaruSet(){
-		return varuMap.keySet();
 	}
 	
 	public void töm(){
 		varuMap.clear();
 	}
 	
-	public Integer taBortAllaAvEnVara(Vara v){
-		return varuMap.remove(v);
+	public boolean taBortAllaAvEnVara(Vara v){
+		if(v == null){
+			throw new IllegalArgumentException("Vara är null");
+		}else if(!varuMap.containsKey(v)){
+			return false; 
+		}else{
+			varuMap.remove(v);
+			return true;
+		}
+	}
+	
+	public boolean taBortVaror(Vara v, int antal){
+		if(v == null){
+			throw new IllegalArgumentException("Vara är null");
+		}else if(!varuMap.containsKey(v)){
+			return false;
+		}else{
+			Integer nyttAntal = varuMap.get(v) - antal;
+			if(nyttAntal <= 0){
+				varuMap.remove(v);
+				return true;
+			}else{
+				varuMap.put(v, nyttAntal);
+				return true;
+			}
+		}
+		
 	}
 	
 	public Pengar getPris(){
 		Pengar totalPris = new Pengar(0);
 		for (Vara v : varuMap.keySet()){
-			for(int i = 0; i<varuMap.get(v); i++){
-				Pengar prisFörVara = v.getPris();
-				totalPris = totalPris.plus(prisFörVara);
-			}
-		}
-		Pengar rabatt = Rabatt.räknaUtRabatter(this, totalPris);
-		if(rabatt != null){
-			totalPris = totalPris.minus(rabatt);
+			Pengar prisFörVara = v.getPris();
+			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
 		}
 		return totalPris;
 	}
