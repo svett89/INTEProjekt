@@ -10,6 +10,8 @@ public class Pengar {
     private RoundingMode avrundningsMode;
     
     
+    
+    
     public Pengar(BigDecimal belopp, Currency valuta, RoundingMode avrundningsMode){
         
         this.belopp = belopp.setScale(valuta.getDefaultFractionDigits(), avrundningsMode);
@@ -18,26 +20,13 @@ public class Pengar {
   
     }
     
-    
-    //Denna konstruktor gör exakt samma sak som den under, bara att den tar in en int och används på andra ställen.
-    public Pengar(int belopp){
-        BigDecimal bd = new BigDecimal(belopp);
-        this.valuta= Currency.getInstance("SEK");
-        this.avrundningsMode=RoundingMode.HALF_UP;
-        this.belopp = bd.setScale(this.valuta.getDefaultFractionDigits(), this.avrundningsMode);
-    }
-
     // Skapa SEK automatiskt
     public Pengar(BigDecimal belopp){
     	this.valuta = Currency.getInstance("SEK");
         this.avrundningsMode = RoundingMode.HALF_UP;
         this.belopp = belopp.setScale(this.valuta.getDefaultFractionDigits(), this.avrundningsMode);
     }
-    /* Skall antagligen tas bort
-    public void setBelopp(BigDecimal belopp){
-    	this.belopp = belopp;
-    }
-    */
+    
 	public BigDecimal getBelopp(){
         return belopp;
     }
@@ -88,7 +77,6 @@ public class Pengar {
         this.belopp = belopp;
     }
     
-  
     public String toString(){
         return belopp.toPlainString()+" " +valuta.getSymbol();
       }

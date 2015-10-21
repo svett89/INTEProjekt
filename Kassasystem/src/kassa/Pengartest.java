@@ -20,18 +20,25 @@ public class Pengartest {
     Pengar testPengar = new Pengar(belopp,Currency.getInstance("USD"),RoundingMode.HALF_UP);   
   
     
-    // Använder här Currency klassens to.string för att se om valutan man skickar in stämmer, PASS
+    
+    @Test
+    public void testaSkapaSek(){
+    	Pengar p1 = skapaPengar(BigDecimal.valueOf(2.0));
+    	assertEquals(new BigDecimal("2.00"), p1.getBelopp());
+    	assertEquals("SEK",p1.getValuta().toString());
+    	assertEquals(RoundingMode.HALF_UP, p1.getAvrundningsMode());
+    }
+    
+    
     @Test
     public void testaValuta() {      
     	assertEquals("USD",testPengar.getValuta().toString());
     }
 
-    // Testar beloppet, Bigdecimal kan inte sättas in i expected parametern så man får skapa den innan.
     @Test
     public void testaBelopp() {
-        BigDecimal expected = new BigDecimal("326.13");
         System.out.println(testPengar.toString());
-        assertEquals(expected,testPengar.getBelopp());
+        assertEquals(new BigDecimal("326.13"),testPengar.getBelopp());
     }
     
     @Test
@@ -56,7 +63,6 @@ public class Pengartest {
         assertEquals(true, testaPengarNoll.ärNoll());
     }
     
-    //Ej klar
     @Test
     public void testAdderaPengar(){
         Pengar p1 = skapaPengar(BigDecimal.valueOf(2.0));
