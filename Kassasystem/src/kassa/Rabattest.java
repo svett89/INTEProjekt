@@ -24,13 +24,14 @@ public class Rabattest {
 		Rabatt.addRabatt(v1, h1);
 		assertEquals(Rabatt.getRabatter(v1, 3), p4);
 	}
+	//OBS! Kommer inte fungera nu!
 	@Test
 	public void testaTaInKvitto(){
 		k1.läggTillVara(v2, 5);
 		HashMap<Integer, Pengar> h2 = new HashMap<Integer, Pengar>();
 		h2.put(3, new Pengar(200));
 		Rabatt.addRabatt(v2, h2);
-		assertEquals(new Pengar(550), k1.getPris());
+		assertEquals(new Pengar(550), k1.getPrisUtanRabatt());
 	}
 	
 
