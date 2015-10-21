@@ -14,11 +14,12 @@ public class Varatest {
 	private Currency valuta = Currency.getInstance("SEK");
 	private Pengar pris = new Pengar(värde, valuta, RoundingMode.HALF_EVEN);
 	
+	
 	@Test
 	public void skapaOchTestaEnVara() {
-		Vara v1 = new Vara("Salami", pris);
-		assertTrue(v1.getNamn() == "Salami");
-		assertTrue(v1.getPris().equals(pris));
+		Jacka j1 = new Jacka("Ski-jacket", new Märke("babidas"), 1, pris);
+		assertTrue(j1.getNamn() == "Ski-jacket");
+		assertTrue(j1.getPris().equals(pris));
 	}
 	
 	/*@Test(expected = IllegalArgumentException.class)
@@ -30,14 +31,14 @@ public class Varatest {
 	public void kastarExceptionNärPrisÄrMinus() {
 		BigDecimal bd = new BigDecimal(-2);
 		pris.setBelopp(bd);
-		Vara v1 = new Vara("Bröd", pris);
+		Vara v1 = new Vara("Strumpor", new Märke("inter-gaming"), 2, pris);
 	}
 
 	@Test
 	public void LikaHashCodeOchEquals() {
 		BigDecimal bd = new BigDecimal(59.99);
-		Vara v1 = new Vara("Ost", pris);
-		Vara v2 = new Vara("Ost", pris);
+		Vara v1 = new Vara("Jeans", new Märke("levaj"), 1, pris);
+		Vara v2 = new Vara("Jeans", new Märke("levaj"), 1, pris);
 		assertTrue(v1.hashCode() == v2.hashCode());
 		assertTrue(v1.equals(v2));
 	}

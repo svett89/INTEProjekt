@@ -3,21 +3,33 @@ package kassa;
 public class Skor extends Vara {
 	
 	private String namn;
+	private Märke märke;
+	private int mängd;
 	private Pengar pris;
 	
-		public Skor(String namn, Pengar pris) {
-			super(namn, pris);
-			this.namn = namn;
-			this.pris = pris;
-		}
+	public Skor(String namn, Märke märke, int mängd, Pengar pris) {
+		super(namn, märke, mängd, pris);
+		this.namn = namn;
+		this.märke = märke;
+		this.mängd = mängd;
+		this.pris = pris;
+	}
 
-		public String getNamn() {
-			return namn;
-		}
+	public String getNamn() {
+		return namn;
+	}
+	
+	public Märke getMärke() {
+		return märke;
+	}
+	
+	public int getMängd() {
+		return mängd;
+	}
 
-		public Pengar getPris() {
-			return pris;
-		}
+	public Pengar getPris() {
+		return pris;
+	}
 
 
 		@Override

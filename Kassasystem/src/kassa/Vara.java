@@ -2,24 +2,39 @@ package kassa;
 
 public class Vara {
 	private String namn;
+	private Märke märke;
+	private int mängd;
 	private Pengar pris;
+	
 
-	public Vara(String namn, Pengar pris) {
+	public Vara(String namn, Märke märke, int mängd, Pengar pris) {
 		if (pris.ärNegativBelopp()) {
 			//Meddelande till exception
 			throw new IllegalArgumentException();
 		}
 		this.namn = namn;
+		this.märke = märke;
+		this.mängd = mängd;
 		this.pris = pris;
 	}
 
 	public String getNamn() {
 		return namn;
 	}
+	
+	public Märke getMärke() {
+		return märke;
+	}
+	
+	public int getMängd() {
+		return mängd;
+	}
 
 	public Pengar getPris() {
 		return pris;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {
