@@ -198,7 +198,7 @@ public class Kvittotest {
 	}
 	
 	@Test
-	public void testaRäknaUtPris(){
+	public void testaRäknaUtPrisUtanRabatt(){
 		k.töm();
 		Vara v1 = skapaVara("V1", bigDec("100"));
 		Vara v2 = skapaVara("V2", bigDec("50"));
@@ -207,5 +207,41 @@ public class Kvittotest {
 		BigDecimal expectedPrisBigDec = new BigDecimal("250");
 		Pengar expectedTotalPris = new Pengar(expectedPrisBigDec);
 		assertEquals(expectedTotalPris, k.getPrisUtanRabatt());
+	}
+	@Test
+	public void testaRäknaUtPrisMedRabatt(){
+		k.töm();
+		Vara v1 = skapaVara("V1", bigDec("10"));
+		k.läggTillVara(v1, 15);
+		Rabatt r = new MängdRabatt("10 V1 -25 SEK", new Pengar(bigDec("25")), 10);
+		RabattLista.sparaRabatt(v1, r);
+		Pengar expectedTotalPris = new Pengar(bigDec("125"));
+		assertEquals(expectedTotalPris, k.getPrisMedRabatt());
+		RabattLista.tömLista();
+	}
+	
+	@Test
+	public void testaUtskrift(){
+		k.töm();
+		läggTillVaror(k);
+		Vara v1 = skapaVara("V1", bigDec("100"));
+		MängdRabatt mr = new MängdRabatt("2 V1", new Pengar(bigDec("10")), 2);
+		RabattLista.sparaRabatt(v1, mr);
+		k.läggTillVara(v1, 3);
+		Vara v2 = skapaVara("V2", bigDec("200"));
+		MärkesRabatt mr2 = new MärkesRabatt("ABC V2", new Pengar(bigDec("25")), new Märke("ABC"));
+		RabattLista.sparaRabatt(v2, mr2);
+		k.läggTillVara(v2, 3);
+		assertEquals(k.skapaUtskrift(), "V0   1   10.00 SEK\n"
+				+ "V1   4   34.00 SEK (-10.00 SEK)\n"
+				+ "V2   4   23.00 SEK (-25.00 SEK)\n"
+				+ "V3   1   13.00 SEK\n"
+				+ "V4   1   14.00 SEK\n"
+				+ "V5   1   15.00 SEK\n"
+				+ "V6   1   16.00 SEK\n"
+				+ "V7   1   17.00 SEK\n"
+				+ "V8   1   18.00 SEK\n"
+				+ "V9   1   19.00 SEK\n");
+		RabattLista.tömLista();
 	}
 }

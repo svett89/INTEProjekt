@@ -1,38 +1,78 @@
 package kassa;
 
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.HashMap;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
+
 public class Rabattest {
 	
-	Kvitto k1 = new Kvitto();
-	Pengar p1 = new Pengar(100);
-	Pengar p2 = new Pengar(150);
-	Pengar p3 = new Pengar(288);
-	Vara v1 = new Vara("cykel", p1);
-	Vara v2 = new Vara("bil", p2);
-	Vara v3 = new Vara("stol", p3);
+	private final Märke m = new Märke("ABC");
+	private HashMap<Vara, Rabatt> toCompare = new HashMap<Vara, Rabatt>();
 	
-	@Test
-	public void testaOmVarorKanLäggasTill(){
-		HashMap<Integer, Pengar> h1 = new HashMap<Integer, Pengar>();
-		//new BigDecimal(100) innebär att om man köper 3 cyklar får man en av dem gratis
-		Pengar p4 = new Pengar(100);
-		h1.put(3, p4);
-		Rabatt.addRabatt(v1, h1);
-		assertEquals(Rabatt.getRabatter(v1, 3), p4);
-	}
-	//OBS! Kommer inte fungera nu!
-	@Test
-	public void testaTaInKvitto(){
-		k1.läggTillVara(v2, 5);
-		HashMap<Integer, Pengar> h2 = new HashMap<Integer, Pengar>();
-		h2.put(3, new Pengar(200));
-		Rabatt.addRabatt(v2, h2);
-		assertEquals(new Pengar(550), k1.getPrisUtanRabatt());
+	private Pengar skapaPengar(String värde){
+		BigDecimal bd = new BigDecimal(värde);
+		Pengar p = new Pengar(bd);
+		return p;
 	}
 	
-
+	private Vara skapaVara(String namn, Pengar pris){
+		return new Vara(namn, m, pris);
+	}
+	
+	private void töm(){
+		RabattLista.tömLista();
+	}
+	@Test
+	public void sparaOchHämtaMärkesRabatt(){
+		töm();
+		MärkesRabatt mr = new MärkesRabatt("KantoKlothing", skapaPengar("200"), new Märke("KantoKlothing"));
+		Vara vara1 = skapaVara("VaraMärke", skapaPengar("400"));
+		RabattLista.sparaRabatt(vara1, mr);
+		toCompare.put(vara1, mr);
+		assertEquals(toCompare, RabattLista.getRabatter());
+	}
+	
+	@Test
+	public void sparaOchHämtaMängdRabatt(){
+		töm();
+		MängdRabatt mr = new MängdRabatt("Mängdrabatt", skapaPengar("30"), 3);
+		Vara vara1 = skapaVara("VaraMängd", skapaPengar("200"));
+		RabattLista.sparaRabatt(vara1, mr);
+		toCompare.put(vara1, mr);
+		assertEquals(toCompare, RabattLista.getRabatter());
+	}
+	
+	@Test
+	public void taBortRabatt(){
+		töm();
+		MängdRabatt mr = new MängdRabatt("Mängdrabatt", skapaPengar("55"), 4);
+		Vara vara1 = skapaVara("tröja", skapaPengar("350"));
+		RabattLista.sparaRabatt(vara1, mr);
+		assertEquals(1, RabattLista.storlek());
+		RabattLista.taBortRabatt(vara1);
+		assertEquals(0, RabattLista.storlek());
+	}
+	
+	private Kvitto k = new Kvitto();
+	
+	private void läggTillVaror(){
+		for(int i = 1; i<11; i++){
+			k.läggTillVara(skapaVara("V"+i, skapaPengar(""+(10*i))));
+			System.out.println(k.skapaUtskrift());
+		}
+	}
+	@Test
+	public void räknaUtRabattSomInteFinns(){
+		töm();
+		läggTillVaror();
+		Pengar expectedPris = skapaPengar("550");
+		assertEquals(expectedPris, k.getPrisUtanRabatt());
+		HashMap<Vara, Pengar> toCompareTotalRabatt = new HashMap<Vara, Pengar>();
+		assertEquals(toCompareTotalRabatt, RabattLista.räknaUtRabatt(k));
+	}
 }

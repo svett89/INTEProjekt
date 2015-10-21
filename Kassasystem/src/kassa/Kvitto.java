@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Kvitto {
 	private HashMap<Vara, Integer> varuMap = new HashMap<Vara, Integer>();
-	
+	private HashMap<Vara, Pengar> varuPrisRabatt = new HashMap<Vara, Pengar>();
 	public Kvitto(){
 	}
 	
@@ -137,5 +137,47 @@ public class Kvitto {
 			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
 		}
 		return totalPris;
+	}
+	
+	public Pengar getPrisMedRabatt(){
+		BigDecimal bd = new BigDecimal("0");
+		Pengar totalPris = new Pengar(bd);
+		for (Vara v : varuMap.keySet()){
+			Pengar prisFörVara = v.getPris();
+			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
+		}
+		räknaUtRabatt();
+		for (Vara v : varuPrisRabatt.keySet()){
+			totalPris = totalPris.minus(varuPrisRabatt.get(v));
+		}
+		return totalPris;
+	}
+	
+	public void räknaUtRabatt(){
+		varuPrisRabatt.clear();
+		varuPrisRabatt = RabattLista.räknaUtRabatt(this);
+	}
+	
+	public String skapaUtskrift(){
+		räknaUtRabatt();
+		String utskrift = "";
+		Set<Vara> varuSet = varuMap.keySet();
+		List<Vara> varuList = new ArrayList<Vara>();
+		varuList.addAll(varuSet);
+		Collections.sort(varuList);
+		for(Vara v : varuList){
+			String namn = v.getNamn();
+			Integer antal = varuMap.get(v);
+			if(varuPrisRabatt.containsKey(v)){
+				Pengar rabatt = varuPrisRabatt.get(v);
+				Pengar totalPris = v.getPris().gånger(antal).minus(rabatt);
+				utskrift += namn + "   " + antal + "   " + 
+						totalPris + " (" + "-" + rabatt + ")" + "\n";
+			}else{
+				utskrift += namn + "   " + antal + "   " + v.getPris() + "\n";
+						
+			}
+		}
+		return utskrift;
 	}
 }

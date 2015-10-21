@@ -1,6 +1,6 @@
 package kassa;
 
-public class Vara {
+public class Vara implements Comparable<Vara> {
 	private String namn;
 	private Märke märke;
 	private Pengar pris;
@@ -27,15 +27,13 @@ public class Vara {
 	public Pengar getPris() {
 		return pris;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((märke == null) ? 0 : märke.hashCode());
 		result = prime * result + ((namn == null) ? 0 : namn.hashCode());
-		result = prime * result + ((pris == null) ? 0 : pris.hashCode());
 		return result;
 	}
 
@@ -48,17 +46,26 @@ public class Vara {
 		if (!(obj instanceof Vara))
 			return false;
 		Vara other = (Vara) obj;
+		if (märke == null) {
+			if (other.märke != null)
+				return false;
+		} else if (!märke.equals(other.märke))
+			return false;
 		if (namn == null) {
 			if (other.namn != null)
 				return false;
 		} else if (!namn.equals(other.namn))
 			return false;
-		if (pris == null) {
-			if (other.pris != null)
-				return false;
-		} else if (!pris.equals(other.pris))
-			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Vara other) {
+		return namn.compareTo(other.namn);
+	}
+	
+	public String toString(){
+		return namn;
 	}
 
 }
