@@ -3,18 +3,16 @@ package kassa;
 public class Vara {
 	private String namn;
 	private Märke märke;
-	private int mängd;
 	private Pengar pris;
 	
 
-	public Vara(String namn, Märke märke, int mängd, Pengar pris) {
+	public Vara(String namn, Märke märke, Pengar pris) {
 		if (pris.ärNegativBelopp()) {
 			//Meddelande till exception
 			throw new IllegalArgumentException();
 		}
 		this.namn = namn;
 		this.märke = märke;
-		this.mängd = mängd;
 		this.pris = pris;
 	}
 
@@ -24,10 +22,6 @@ public class Vara {
 	
 	public Märke getMärke() {
 		return märke;
-	}
-	
-	public int getMängd() {
-		return mängd;
 	}
 
 	public Pengar getPris() {

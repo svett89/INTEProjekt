@@ -4,14 +4,12 @@ public class Strumpor extends Vara {
 	
 	private String namn;
 	private Märke märke;
-	private int mängd;
 	private Pengar pris;
 	
 	public Strumpor(String namn, Märke märke, int mängd, Pengar pris) {
-		super(namn, märke, mängd, pris);
+		super(namn, märke, pris);
 		this.namn = namn;
 		this.märke = märke;
-		this.mängd = mängd;
 		this.pris = pris;
 	}
 
@@ -21,10 +19,6 @@ public class Strumpor extends Vara {
 	
 	public Märke getMärke() {
 		return märke;
-	}
-	
-	public int getMängd() {
-		return mängd;
 	}
 
 	public Pengar getPris() {

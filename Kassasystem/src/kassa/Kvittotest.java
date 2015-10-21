@@ -12,9 +12,10 @@ public class Kvittotest {
 	
 	//Hjälpmetod för att skapa vara
 	private Vara skapaVara(String beskrivning, BigDecimal pris){
+		Märke m = new Märke("ABC");
 		Currency valuta = Currency.getInstance("SEK");
 		Pengar varuPris = new Pengar(pris, valuta, RoundingMode.HALF_UP);
-		return new Vara(beskrivning, varuPris); 
+		return new Vara(beskrivning, m, varuPris); 
 	}
 	
 	//Hjälpmetod för att skapa BigDecimal
@@ -203,7 +204,8 @@ public class Kvittotest {
 		Vara v2 = skapaVara("V2", bigDec("50"));
 		k.läggTillVara(v1, 2);
 		k.läggTillVara(v2, 1);
-		Pengar expectedTotalPris = new Pengar(250);
+		BigDecimal expectedPrisBigDec = new BigDecimal("250");
+		Pengar expectedTotalPris = new Pengar(expectedPrisBigDec);
 		assertEquals(expectedTotalPris, k.getPrisUtanRabatt());
 	}
 }

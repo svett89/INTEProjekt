@@ -31,14 +31,14 @@ public class Varatest {
 	public void kastarExceptionNärPrisÄrMinus() {
 		BigDecimal bd = new BigDecimal(-2);
 		pris.setBelopp(bd);
-		Vara v1 = new Vara("Strumpor", new Märke("inter-gaming"), 2, pris);
+		Vara v1 = new Vara("Strumpor", new Märke("inter-gaming"), pris);
 	}
 
 	@Test
 	public void LikaHashCodeOchEquals() {
 		BigDecimal bd = new BigDecimal(59.99);
-		Vara v1 = new Vara("Jeans", new Märke("levaj"), 1, pris);
-		Vara v2 = new Vara("Jeans", new Märke("levaj"), 1, pris);
+		Vara v1 = new Vara("Jeans", new Märke("levaj"), pris);
+		Vara v2 = new Vara("Jeans", new Märke("levaj"), pris);
 		assertTrue(v1.hashCode() == v2.hashCode());
 		assertTrue(v1.equals(v2));
 	}

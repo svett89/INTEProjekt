@@ -1,5 +1,6 @@
 package kassa;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Kvitto {
@@ -129,7 +130,8 @@ public class Kvitto {
 	}
 	
 	public Pengar getPrisUtanRabatt(){
-		Pengar totalPris = new Pengar(0);
+		BigDecimal bd = new BigDecimal("0");
+		Pengar totalPris = new Pengar(bd);
 		for (Vara v : varuMap.keySet()){
 			Pengar prisFörVara = v.getPris();
 			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
