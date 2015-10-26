@@ -63,7 +63,6 @@ public class Rabattest {
 	private void läggTillVaror(){
 		for(int i = 1; i<11; i++){
 			k.läggTillVara(skapaVara("V"+i, skapaPengar(""+(10*i))));
-			System.out.println(k.skapaUtskrift());
 		}
 	}
 	@Test
@@ -74,5 +73,31 @@ public class Rabattest {
 		assertEquals(expectedPris, k.getPrisUtanRabatt());
 		HashMap<Vara, Pengar> toCompareTotalRabatt = new HashMap<Vara, Pengar>();
 		assertEquals(toCompareTotalRabatt, RabattLista.räknaUtRabatt(k));
+	}
+	@Test
+	public void räknaUtMärkesRabattSomFinns(){
+		töm();
+		läggTillVaror();
+		Pengar expectedPrisUtanRabatt = skapaPengar("550");
+		assertEquals(expectedPrisUtanRabatt, k.getPrisUtanRabatt());
+		Vara v = new Vara("V5", new Märke("ABC"), skapaPengar("50"));
+		Rabatt r = new MärkesRabatt("20 sek för V5", skapaPengar("20"), new Märke("ABC"));
+		RabattLista.sparaRabatt(v, r);
+		Pengar expectedPrisMedRabatt = skapaPengar("530");
+		k.räknaUtRabatt();
+		assertEquals(expectedPrisMedRabatt, k.getPrisMedRabatt());
+	}
+	
+	@Test
+	public void räknaUtMängdRabattSomFinns(){
+		töm();
+		läggTillVaror();
+		Vara v = new Vara("V6", new Märke("ABC"), skapaPengar("60"));
+		k.läggTillVara(v);
+		Rabatt r = new MängdRabatt("30 sek för 2 V6", skapaPengar("30"), 2);
+		RabattLista.sparaRabatt(v, r);
+		k.räknaUtRabatt();
+		Pengar expectedPrisMedRabatt = skapaPengar("580");
+		assertEquals(expectedPrisMedRabatt, k.getPrisMedRabatt());
 	}
 }

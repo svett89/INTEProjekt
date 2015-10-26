@@ -1,5 +1,7 @@
 package kassa;
 
+import java.util.HashMap;
+
 public abstract class Rabatt {
 	
 	protected String rabattNamn;
@@ -21,5 +23,7 @@ public abstract class Rabatt {
 	public String toString(){
 		return rabattNamn;
 	}
+	
+	public abstract HashMap<Vara, Pengar> räknaUtRabatt(Vara v, int antalPåKvitto, HashMap<Vara, Pengar> rabattMap);
 	
 }

@@ -1,5 +1,7 @@
 package kassa;
 
+import java.util.HashMap;
+
 public class M‰ngdRabatt extends Rabatt {
 	
 	private int antal;
@@ -12,5 +14,20 @@ public class M‰ngdRabatt extends Rabatt {
 	public int getAntal(){
 		return antal;
 	}
+
+	@Override
+	public HashMap<Vara, Pengar> r‰knaUtRabatt(Vara v, int antalPÂKvitto, HashMap<Vara, Pengar> rabattMap) {
+		if(v == null || rabattMap == null){
+			throw new IllegalArgumentException("Vara eller HashMap ‰r null");
+		}else if(antalPÂKvitto <= 0){
+			throw new IllegalArgumentException("Antal pÂ kvitto angett som 0 eller l‰gre");
+		}
+		if(antalPÂKvitto >= this.antal){
+			rabattMap.put(v, this.rabattAvdrag);
+		}
+		return rabattMap;
+	}
+	
+	
 	
 }

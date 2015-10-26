@@ -6,6 +6,7 @@ import java.util.*;
 public class Kvitto {
 	private HashMap<Vara, Integer> varuMap = new HashMap<Vara, Integer>();
 	private HashMap<Vara, Pengar> varuPrisRabatt = new HashMap<Vara, Pengar>();
+	
 	public Kvitto(){
 	}
 	
@@ -82,15 +83,20 @@ public class Kvitto {
 			throw new IllegalArgumentException("Varusamling är null");
 		}else if(varuSamling.isEmpty()){
 			throw new IllegalArgumentException("Varusamling är tom");
+		}else{
+			for(Vara v : varuSamling){
+				if(v == null){
+					throw new IllegalArgumentException("Samlingen innehåller null-värden");
+				}
+			}
 		}
+		
 		for(Vara v : varuSamling){
 			if(v != null && varuMap.containsKey(v)){
 				varuMap.put(v, (varuMap.get(v)+1));
 			}
 			else if(v != null){
 				varuMap.put(v, 1);
-			}else{
-				throw new IllegalArgumentException("Samlingen innehåller null-värden");
 			}
 			
 		}

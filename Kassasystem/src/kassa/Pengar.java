@@ -9,9 +9,6 @@ public class Pengar {
     private Currency valuta;
     private RoundingMode avrundningsMode;
     
-    
-    
-    
     public Pengar(BigDecimal belopp, Currency valuta, RoundingMode avrundningsMode){
         
         this.belopp = belopp.setScale(valuta.getDefaultFractionDigits(), avrundningsMode);

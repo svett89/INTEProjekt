@@ -42,12 +42,13 @@ public class Kvittotest {
 	@Test
 	public void testaLäggTillVaraIMetod(){
 		Vara v = skapaVara("V", bigDec("100"));
-		k.läggTillVara(v, 1);
+		k.läggTillVara(v, 3);
 		assertTrue(k.varaFinns(v));
 		for(int i = 0; i<7; i++){
 			k.läggTillVara(skapaVara("V"+i, bigDec(""+i)));
 		}
-		assertEquals(8, k.getTotalMängdVaror());
+		//System.out.println(k.skapaUtskrift());
+		assertEquals(10, k.getTotalMängdVaror());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

@@ -52,20 +52,7 @@ public class RabattLista {
 				Vara v = e.getKey();
 				Integer antal = e.getValue();
 				Rabatt r = rabatter.get(v);
-				if(r instanceof MängdRabatt){
-					int antalFörRabatt = ((MängdRabatt) r).getAntal();
-					int antalPåKvitto = antal;
-					if(antalPåKvitto >= antalFörRabatt){
-						rabattMap.put(v, rabatter.get(v).rabattAvdrag());
-					}
-					
-				}else if(r instanceof MärkesRabatt){
-					Märke märkeFörRabatt = ((MärkesRabatt) r).getMärke();
-					Märke märkePåKvitto = v.getMärke();
-					if(märkePåKvitto.equals(märkeFörRabatt)){
-						rabattMap.put(v, rabatter.get(v).rabattAvdrag());
-					}
-				}
+				rabattMap = r.räknaUtRabatt(v, antal, rabattMap);	
 			}
 		}
 		return rabattMap;
