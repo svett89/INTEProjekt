@@ -48,5 +48,8 @@ public class Jacka extends Vara {
 			return true;
 		}
 		
-		
+		@Override
+		public int hashCode(){
+			return super.hashCode();
+		}
 }

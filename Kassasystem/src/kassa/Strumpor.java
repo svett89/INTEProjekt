@@ -48,5 +48,9 @@ public class Strumpor extends Vara {
 			return true;
 		}
 		
+		@Override
+		public int hashCode(){
+			return super.hashCode();
+		}
 		
 }

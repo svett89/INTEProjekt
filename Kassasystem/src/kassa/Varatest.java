@@ -36,7 +36,6 @@ public class Varatest {
 
 	@Test
 	public void LikaHashCodeOchEquals() {
-		BigDecimal bd = new BigDecimal(59.99);
 		Vara v1 = new Vara("Jeans", new Märke("levaj"), pris);
 		Vara v2 = new Vara("Jeans", new Märke("levaj"), pris);
 		assertTrue(v1.hashCode() == v2.hashCode());

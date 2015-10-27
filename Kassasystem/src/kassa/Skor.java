@@ -48,4 +48,8 @@ public class Skor extends Vara {
 			return true;
 		}
 		
+		@Override
+		public int hashCode(){
+			return super.hashCode();
+		}
 }

@@ -1,7 +1,6 @@
 package kassa;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.HashMap;
 
 import org.junit.Test;
