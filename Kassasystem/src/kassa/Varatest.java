@@ -35,7 +35,7 @@ public class Varatest {
 	}
 
 	@Test
-	public void LikaHashCodeOchEquals() {
+	public void likaHashCodeOchEquals() {
 		Vara v1 = new Vara("Jeans", new Märke("levaj"), pris);
 		Vara v2 = new Vara("Jeans", new Märke("levaj"), pris);
 		assertTrue(v1.hashCode() == v2.hashCode());
