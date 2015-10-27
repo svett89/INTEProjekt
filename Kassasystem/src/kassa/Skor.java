@@ -6,7 +6,7 @@ public class Skor extends Vara {
 	private Märke märke;
 	private Pengar pris;
 	
-	public Skor(String namn, Märke märke, int mängd, Pengar pris) {
+	public Skor(String namn, Märke märke, Pengar pris) {
 		super(namn, märke, pris);
 		this.namn = namn;
 		this.märke = märke;

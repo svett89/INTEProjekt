@@ -4,8 +4,11 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class Kvitto {
+	//Map med varor som nyckel och antal som värde 
 	private HashMap<Vara, Integer> varuMap = new HashMap<Vara, Integer>();
-	private HashMap<Vara, Pengar> varuPrisRabatt = new HashMap<Vara, Pengar>();
+	
+	//Map med varor samt den rabatt som gäller för varan
+	private HashMap<Vara, Pengar> varuRabattMap = new HashMap<Vara, Pengar>();
 	
 	public Kvitto(){
 	}
@@ -47,17 +50,9 @@ public class Kvitto {
 	}
 	
 	public void läggTillVara(Vara v){
-		if(v != null){
-			if(varuMap.containsKey(v)){
-				varuMap.put(v, (varuMap.get(v)+1));
-			}else{
-				varuMap.put(v, 1);
-			}
-		}else{
-			throw new IllegalArgumentException("Vara är null");
-		}
-		
+		läggTillVara(v, 1);
 	}
+	
 	public void läggTillVaror(Vara ... varor){
 		if(varor.length <= 0){
 			throw new IllegalArgumentException("Arrayen med varor är tom");
@@ -74,10 +69,6 @@ public class Kvitto {
 		}
 	}
 	
-	public boolean varaFinns(Vara v){
-		return varuMap.containsKey(v) && varuMap.get(v) > 0;
-	}
-	
 	public void läggTillVarorFrånSamling(Collection<Vara> varuSamling){
 		if(varuSamling == null){
 			throw new IllegalArgumentException("Varusamling är null");
@@ -92,17 +83,15 @@ public class Kvitto {
 		}
 		
 		for(Vara v : varuSamling){
-			if(v != null && varuMap.containsKey(v)){
-				varuMap.put(v, (varuMap.get(v)+1));
-			}
-			else if(v != null){
-				varuMap.put(v, 1);
-			}
-			
+			läggTillVara(v);
 		}
 	}
 	
-	public void töm(){
+	public boolean varaFinns(Vara v){
+		return varuMap.containsKey(v) && varuMap.get(v) > 0;
+	}
+	
+	public void tömVaruMap(){
 		varuMap.clear();
 	}
 	
@@ -126,18 +115,16 @@ public class Kvitto {
 			Integer nyttAntal = varuMap.get(v) - antal;
 			if(nyttAntal <= 0){
 				varuMap.remove(v);
-				return true;
 			}else{
 				varuMap.put(v, nyttAntal);
-				return true;
 			}
+			return true;
 		}
 		
 	}
 	
 	public Pengar getPrisUtanRabatt(){
-		BigDecimal bd = new BigDecimal("0");
-		Pengar totalPris = new Pengar(bd);
+		Pengar totalPris = new Pengar(new BigDecimal("0"));
 		for (Vara v : varuMap.keySet()){
 			Pengar prisFörVara = v.getPris();
 			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
@@ -146,22 +133,17 @@ public class Kvitto {
 	}
 	
 	public Pengar getPrisMedRabatt(){
-		BigDecimal bd = new BigDecimal("0");
-		Pengar totalPris = new Pengar(bd);
-		for (Vara v : varuMap.keySet()){
-			Pengar prisFörVara = v.getPris();
-			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
-		}
+		Pengar totalPris = getPrisUtanRabatt();
 		räknaUtRabatt();
-		for (Vara v : varuPrisRabatt.keySet()){
-			totalPris = totalPris.minus(varuPrisRabatt.get(v));
+		for (Vara v : varuRabattMap.keySet()){
+			totalPris = totalPris.minus(varuRabattMap.get(v));
 		}
 		return totalPris;
 	}
 	
 	public void räknaUtRabatt(){
-		varuPrisRabatt.clear();
-		varuPrisRabatt = RabattLista.räknaUtRabatt(this);
+		varuRabattMap.clear();
+		varuRabattMap = RabattLista.räknaUtRabatt(this);
 	}
 	
 	public String skapaUtskrift(){
@@ -174,8 +156,8 @@ public class Kvitto {
 		for(Vara v : varuList){
 			String namn = v.getNamn();
 			Integer antal = varuMap.get(v);
-			if(varuPrisRabatt.containsKey(v)){
-				Pengar rabatt = varuPrisRabatt.get(v);
+			if(varuRabattMap.containsKey(v)){
+				Pengar rabatt = varuRabattMap.get(v);
 				Pengar totalPris = v.getPris().gånger(antal).minus(rabatt);
 				utskrift += namn + "   " + antal + "   " + 
 						totalPris + " (" + "-" + rabatt + ")" + "\n";

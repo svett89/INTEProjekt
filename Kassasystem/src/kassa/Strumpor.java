@@ -6,7 +6,7 @@ public class Strumpor extends Vara {
 	private Märke märke;
 	private Pengar pris;
 	
-	public Strumpor(String namn, Märke märke, int mängd, Pengar pris) {
+	public Strumpor(String namn, Märke märke, Pengar pris) {
 		super(namn, märke, pris);
 		this.namn = namn;
 		this.märke = märke;

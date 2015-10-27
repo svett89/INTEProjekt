@@ -47,7 +47,6 @@ public class Kvittotest {
 		for(int i = 0; i<7; i++){
 			k.läggTillVara(skapaVara("V"+i, bigDec(""+i)));
 		}
-		//System.out.println(k.skapaUtskrift());
 		assertEquals(10, k.getTotalMängdVaror());
 	}
 	
@@ -110,7 +109,7 @@ public class Kvittotest {
 		}
 		assertEquals(5, k.getTotalMängdVaror());
 		
-		k.töm();
+		k.tömVaruMap();
 		
 		assertEquals(0, k.getTotalMängdVaror());
 	}
@@ -200,7 +199,7 @@ public class Kvittotest {
 	
 	@Test
 	public void testaRäknaUtPrisUtanRabatt(){
-		k.töm();
+		k.tömVaruMap();
 		Vara v1 = skapaVara("V1", bigDec("100"));
 		Vara v2 = skapaVara("V2", bigDec("50"));
 		k.läggTillVara(v1, 2);
@@ -211,7 +210,7 @@ public class Kvittotest {
 	}
 	@Test
 	public void testaRäknaUtPrisMedRabatt(){
-		k.töm();
+		k.tömVaruMap();
 		Vara v1 = skapaVara("V1", bigDec("10"));
 		k.läggTillVara(v1, 15);
 		Rabatt r = new MängdRabatt("10 V1 -25 SEK", new Pengar(bigDec("25")), 10);
@@ -223,7 +222,7 @@ public class Kvittotest {
 	
 	@Test
 	public void testaUtskrift(){
-		k.töm();
+		k.tömVaruMap();
 		läggTillVaror(k);
 		Vara v1 = skapaVara("V1", bigDec("100"));
 		MängdRabatt mr = new MängdRabatt("2 V1", new Pengar(bigDec("10")), 2);

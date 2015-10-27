@@ -17,7 +17,7 @@ public class Varatest {
 	
 	@Test
 	public void skapaOchTestaEnVara() {
-		Jacka j1 = new Jacka("Ski-jacket", new Märke("babidas"), 1, pris);
+		Jacka j1 = new Jacka("Ski-jacket", new Märke("babidas"), pris);
 		assertTrue(j1.getNamn() == "Ski-jacket");
 		assertTrue(j1.getPris().equals(pris));
 	}
