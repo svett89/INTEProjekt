@@ -1,7 +1,14 @@
 package kassa;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
+import rabatt.MängdRabatt;
+import rabatt.MärkesRabatt;
+import rabatt.RabattLista;
+import vara.*;
+
 import java.util.*;
 import java.math.*;
 
@@ -213,7 +220,7 @@ public class Kvittotest {
 		k.tömVaruMap();
 		Vara v1 = skapaVara("V1", bigDec("10"));
 		k.läggTillVara(v1, 15);
-		Rabatt r = new MängdRabatt("10 V1 -25 SEK", new Pengar(bigDec("25")), 10);
+		MängdRabatt r = new MängdRabatt("10 V1 -25 SEK", new Pengar(bigDec("25")), 10);
 		RabattLista.sparaRabatt(v1, r);
 		Pengar expectedTotalPris = new Pengar(bigDec("125"));
 		assertEquals(expectedTotalPris, k.getPrisMedRabatt());

@@ -3,6 +3,9 @@ package kassa;
 import java.math.BigDecimal;
 import java.util.*;
 
+import rabatt.RabattLista;
+import vara.Vara;
+
 public class Kvitto {
 	//Map med varor som nyckel och antal som värde 
 	private HashMap<Vara, Integer> varuMap = new HashMap<Vara, Integer>();
