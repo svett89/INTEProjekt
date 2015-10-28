@@ -13,7 +13,7 @@ public class RabattLista {
 
 	private static Map<Vara, Rabatt> rabatter = new HashMap<Vara,Rabatt>();
 	
-	public RabattLista(){
+	private RabattLista(){
 		
 	}
 	

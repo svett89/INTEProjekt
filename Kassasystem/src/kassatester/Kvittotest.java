@@ -36,9 +36,11 @@ public class Kvittotest {
 	public void testaLäggTillVarorIKonstruktor(){
 		Vara v1 = skapaVara("V1", bigDec("100"));
 		Vara v2 = skapaVara("V2", bigDec("200"));
+		Vara v3 = skapaVara("V3", bigDec("300"));
 		Kvitto k = new Kvitto(v1, v2);
 		assertTrue(k.varaFinns(v1));
 		assertTrue(k.varaFinns(v2));
+		assertFalse(k.varaFinns(v3));
 		assertEquals(2, k.getTotalMängdVaror());
 	}
 	
@@ -48,6 +50,7 @@ public class Kvittotest {
 		Vara v2 = null;
 		Kvitto k = new Kvitto(v1, v2);
 	}
+	
 	@Test
 	public void testaLäggTillVaraIMetod(){
 		Vara v = skapaVara("V", bigDec("100"));
@@ -65,20 +68,26 @@ public class Kvittotest {
 		k.läggTillVara(v);
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillNollVaror(){
+		Vara v = skapaVara("V1", bigDec("323"));
+		k.läggTillVara(v, 0);
+	}
+	
 	@Test 
 	public void testaLäggTillVarorIMetodMedArray(){
 		Vara v1 = skapaVara("V1", bigDec("100"));
 		Vara v2 = skapaVara("V2", bigDec("200"));
 		Vara v3 = skapaVara("V3", bigDec("300"));
-		Vara[] varor = {v1, v2, v3};
+		Vara[] varor = {v1, v2, v3, v1};
 		assertEquals(0, k.getTotalMängdVaror());
 		k.läggTillVaror(varor);
-		assertEquals(3, k.getTotalMängdVaror());
+		assertEquals(4, k.getTotalMängdVaror());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testaLäggTillTomArray(){
-		Vara[] varor = new Vara[5];
+		Vara[] varor = new Vara[0];
 		k.läggTillVaror(varor);
 	}
 	
@@ -102,12 +111,19 @@ public class Kvittotest {
 		k.läggTillVarorFrånSamling(varuSamling);
 	}
 	
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void testaLäggTillFrånListaMedNullVärde(){
 		ArrayList<Vara> varuSamling = new ArrayList<Vara>();
 		Vara v = skapaVara("V", bigDec("2765"));
 		varuSamling.add(v);
 		varuSamling.add(null);
+		k.läggTillVarorFrånSamling(varuSamling);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillTomLista(){
+		ArrayList<Vara> varuSamling = new ArrayList<Vara>();
 		k.läggTillVarorFrånSamling(varuSamling);
 	}
 	

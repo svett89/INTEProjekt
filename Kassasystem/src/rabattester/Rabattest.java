@@ -2,6 +2,7 @@ package rabattester;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+
 import rabatt.*;
 import kassa.Kvitto;
 import kassa.Pengar;
@@ -48,7 +49,18 @@ public class Rabattest {
 		Vara vara1 = skapaVara("VaraMängd", skapaPengar("200"));
 		RabattLista.sparaRabatt(vara1, mr);
 		toCompare.put(vara1, mr);
+		assertEquals(3, mr.getAntal());
 		assertEquals(toCompare, RabattLista.getRabatter());
+	}
+	
+	@Test
+	public void sparaRabattFörVaraSomRedanFinns(){
+		töm();
+		MängdRabatt mr = new MängdRabatt("Mr", skapaPengar("100"), 3);
+		Vara vara1 = skapaVara("VaraMängd", skapaPengar("400"));
+		RabattLista.sparaRabatt(vara1, mr);
+		MärkesRabatt mr2 = new MärkesRabatt("Mr2", skapaPengar("200"), new Märke("HoennHoses"));
+		assertFalse(RabattLista.sparaRabatt(vara1, mr2));
 	}
 	
 	@Test
@@ -60,6 +72,13 @@ public class Rabattest {
 		assertEquals(1, RabattLista.storlek());
 		RabattLista.taBortRabatt(vara1);
 		assertEquals(0, RabattLista.storlek());
+	}
+	
+	@Test
+	public void taBortRabattSomInteFinns(){
+		töm();
+		Vara v1 = skapaVara("Lamatröja", skapaPengar("5654"));
+		assertFalse(RabattLista.taBortRabatt(v1));
 	}
 	
 	private Kvitto k = new Kvitto();
@@ -104,4 +123,41 @@ public class Rabattest {
 		Pengar expectedPrisMedRabatt = skapaPengar("580");
 		assertEquals(expectedPrisMedRabatt, k.getPrisMedRabatt());
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaNullVärdenFörRäknaUtMängdRabatt(){
+		töm();
+		HashMap<Vara, Pengar> hm = null;
+		MängdRabatt mr = new MängdRabatt("mr", skapaPengar("10"), 3);
+		mr.räknaUtRabatt(skapaVara("v1", skapaPengar("40")), 3, hm);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaAntalMindreÄnEllerLikaMedNollMängdRabatt(){
+		töm();
+		HashMap<Vara, Pengar> hm = new HashMap<Vara, Pengar>();
+		MängdRabatt mr = new MängdRabatt("mr", skapaPengar("30"), 6);
+		mr.räknaUtRabatt(skapaVara("vara1", skapaPengar("55")), 0, hm);
+		
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaNullVärdenFörRäknaUtMärkesRabatt(){
+		töm();
+		HashMap<Vara, Pengar> hm = null;
+		MärkesRabatt mr = new MärkesRabatt("mr", skapaPengar("10"), new Märke("Krante"));
+		mr.räknaUtRabatt(skapaVara("v1", skapaPengar("40")), 3, hm);
+	}
+	
+	@Test
+	public void testaGettersOchToString(){
+		töm();
+		MärkesRabatt mr = new MärkesRabatt("mr", skapaPengar("74"), new Märke("MärkeA"));
+		assertEquals(new Märke("MärkeA"), mr.getMärke());
+		assertEquals("mr", mr.getRabattNamn());
+		assertEquals(skapaPengar("74"), mr.rabattAvdrag());
+		assertEquals("mr", mr.toString());
+	}
+	
+
 }

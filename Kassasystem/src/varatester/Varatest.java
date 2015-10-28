@@ -15,12 +15,36 @@ public class Varatest {
 	private Currency valuta = Currency.getInstance("SEK");
 	private Pengar pris = new Pengar(värde, valuta, RoundingMode.HALF_EVEN);
 	
-	
 	@Test
-	public void skapaOchTestaEnVara() {
+	public void skapaOchTestaJacka() {
 		Jacka j1 = new Jacka("Ski-jacket", new Märke("babidas"), pris);
 		assertTrue(j1.getNamn() == "Ski-jacket");
+		assertTrue(j1.getMärke().toString() == "babidas");
 		assertTrue(j1.getPris().equals(pris));
+	}
+	
+	@Test
+	public void skapaOchTestaMössa() {
+		Mössa m1 = new Mössa("vintermössa", new Märke("babidas"), pris);
+		assertTrue(m1.getNamn() == "vintermössa");
+		assertTrue(m1.getMärke().toString() == "babidas");
+		assertTrue(m1.getPris().equals(pris));
+	}
+	
+	@Test
+	public void skapaOchTestaSkor() {
+		Skor s1 = new Skor("Boots", new Märke("Najk"), pris);
+		assertTrue(s1.getNamn() == "Boots");
+		assertTrue(s1.getMärke().toString() == "Najk");
+		assertTrue(s1.getPris().equals(pris));
+	}
+	
+	@Test
+	public void skapaOchTestaStrumpor() {
+		Strumpor str1 = new Strumpor("Tjockstrumpor", new Märke("Faddium"), pris);
+		assertTrue(str1.getNamn().equals("Tjockstrumpor"));
+		assertTrue(str1.getMärke().toString() == "Faddium");
+		assertTrue(str1.getPris().equals(pris));
 	}
 	
 	/*@Test(expected = IllegalArgumentException.class)
@@ -42,4 +66,6 @@ public class Varatest {
 		assertTrue(v1.hashCode() == v2.hashCode());
 		assertTrue(v1.equals(v2));
 	}
+	
+
 }
