@@ -70,10 +70,7 @@ public class Pengar {
         return new Pengar(belopp,valuta,avrundningsMode);
     }
     
-    public void setBelopp(BigDecimal belopp){
-        this.belopp = belopp;
-    }
-    
+
     public String toString(){
         return belopp.toPlainString()+" " +valuta.getSymbol();
       }

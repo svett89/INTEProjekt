@@ -50,7 +50,7 @@ public class Varatest {
 	@Test(expected = IllegalArgumentException.class)
 	public void kastarExceptionNärPrisÄrMinus() {
 		BigDecimal bd = new BigDecimal(-2);
-		pris.setBelopp(bd);
+		pris = new Pengar(bd, valuta, RoundingMode.HALF_EVEN);
 		Vara v1 = new Vara("Strumpor", new Märke("inter-gaming"), pris);
 	}
 
