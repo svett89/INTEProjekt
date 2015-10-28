@@ -18,7 +18,8 @@ public class Pengartest {
     BigDecimal belopp = new BigDecimal("326.125");
     
     Pengar testPengar = new Pengar(belopp,Currency.getInstance("USD"),RoundingMode.HALF_UP);   
-  
+    Pengar testPengar2 = new Pengar(belopp,Currency.getInstance("USD"),RoundingMode.HALF_UP);   
+    
     
     
     @Test
@@ -37,7 +38,6 @@ public class Pengartest {
 
     @Test
     public void testaBelopp() {
-        System.out.println(testPengar.toString());
         assertEquals(new BigDecimal("326.13"),testPengar.getBelopp());
     }
     
@@ -50,10 +50,22 @@ public class Pengartest {
     public void testaBeloppÖverNoll(){
         assertEquals(true, testPengar.ärPositivBelopp());
     }
+
+    @Test
+    public void testaBeloppÖverNollNegativ(){
+    	Pengar p1 = skapaPengar(BigDecimal.valueOf(-2.0));
+    	assertEquals(false , p1.ärPositivBelopp());
+    }
     
     @Test
     public void testaBeloppUnderNoll(){
         assertEquals(false, testPengar.ärNegativBelopp());
+    }
+    
+    @Test
+    public void testaBeloppUnderNolltvå(){
+    	Pengar p1 = skapaPengar(BigDecimal.valueOf(-2.0));
+    	assertEquals(true , p1.ärNegativBelopp());
     }
     
     @Test
@@ -62,6 +74,13 @@ public class Pengartest {
         Pengar testaPengarNoll = new Pengar(noll,Currency.getInstance("SEK"),RoundingMode.UP);
         assertEquals(true, testaPengarNoll.ärNoll());
     }
+    
+    @Test
+    public void testaNollPunkttvå(){
+    	Pengar p1 = skapaPengar(BigDecimal.valueOf(-2.0));
+    	assertEquals(false , p1.ärNoll());
+    }
+    
     
     @Test
     public void testAdderaPengar(){
@@ -94,7 +113,21 @@ public class Pengartest {
         int faktor = 3;
         assertEquals(new BigDecimal("0.33"), p1.delaMedInt(faktor).getBelopp());
     }
-  
+    
+    @Test
+    public void testaToString(){
+    	assertEquals(testPengar.toString(), testPengar2.toString());
+    }
+    
+    @Test
+    public void testaHashCode(){
+    	assertTrue(testPengar.hashCode() == testPengar2.hashCode());
+    }
+    
+    @Test
+    public void testaEquals(){
+    	assertTrue(testPengar.equals(testPengar2));
+    }
     
 }
 
