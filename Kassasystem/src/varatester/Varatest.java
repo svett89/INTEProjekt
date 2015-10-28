@@ -46,11 +46,6 @@ public class Varatest {
 		assertTrue(str1.getMärke().toString() == "Faddium");
 		assertTrue(str1.getPris().equals(pris));
 	}
-	
-	/*@Test(expected = IllegalArgumentException.class)
-	public void kastarExceptionNärPrisFörStor() {
-		Vara v1 = new Vara("Bröd", 10000);
-	}*/
 
 	@Test(expected = IllegalArgumentException.class)
 	public void kastarExceptionNärPrisÄrMinus() {
@@ -65,6 +60,19 @@ public class Varatest {
 		Vara v2 = new Vara("Jeans", new Märke("levaj"), pris);
 		assertTrue(v1.hashCode() == v2.hashCode());
 		assertTrue(v1.equals(v2));
+	}
+	
+	@Test
+	public void toStringTest() {
+		Vara v1 = new Vara("Sko modell 1", new Märke("foo"), pris);
+		assertEquals("Sko modell 1", v1.toString());
+	}
+	
+	@Test
+	public void compareToTest() {
+		Vara v1 = new Vara("ABC", new Märke("bar"), pris);
+		Vara v2 = new Vara("BCD", new Märke("bar"), pris);
+		assertTrue(v1.compareTo(v2) < 0);
 	}
 	
 
