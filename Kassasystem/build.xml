@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="Kassasystem" default="run" basedir=".">
+
+	<target name = "cleanup">
+		<delete dir = "reports"/>
+	</target>
+	
+	<target name = "create" depends = "cleanup">
+		<mkdir dir = "reports"/>
+	</target>
+	
+	<path id = "classpath">
+		<path location = "lib">
+			<fileset dir = "lib" includes = "*.jar">
+			</fileset>
+		</path>
+		<path location = "bin">
+		</path>
+	</path>
+
+	<target name = "compile" depends = "create">
+		<javac classpathref = "classpath" includeantruntime = "true" srcdir="src" destdir="bin" description="Compiling Java files" includes = "*.java">
+			<include name="**/*.java"/>
+		</javac>
+	</target>
+
+	<target name = "run" depends = "compile">
+		<echo> Testrapporter kommer att genereras till katalogen Reports</echo>
+		<junit haltonfailure = "false" printsummary = "true">
+			<classpath refid = "classpath"></classpath>
+			<test name = "kassatester.Kvittotest" todir = "reports"></test>
+			<test name = "kassatester.Pengartest" todir = "reports"></test>
+			<test name = "rabattester.Rabattest" todir = "reports"></test>
+			<test name = "varatester.Varatest" todir = "reports"></test>
+			<formatter type="plain"/>
+		</junit>
+	</target>
+</project>
