@@ -50,8 +50,8 @@ public class Pengar {
 	
     public Pengar gånger(int gånger) {
         BigDecimal faktor = new BigDecimal(gånger);
-        belopp = belopp.multiply(faktor);
-        return new Pengar(belopp,valuta,avrundningsMode);
+        BigDecimal nyttBelopp = belopp.multiply(faktor);
+        return new Pengar(nyttBelopp,valuta,avrundningsMode);
     }
     
     public Pengar delaMedInt(int talAttDelaMed){

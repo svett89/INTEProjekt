@@ -130,8 +130,11 @@ public class Kvitto {
 		Pengar totalPris = new Pengar(new BigDecimal("0"));
 		for (Vara v : varuMap.keySet()){
 			Pengar prisFörVara = v.getPris();
-			totalPris = totalPris.plus(prisFörVara.gånger(varuMap.get(v)));
+			int antal = varuMap.get(v);
+			Pengar totalPrisFörVara = prisFörVara.gånger(antal);
+			totalPris = totalPris.plus(totalPrisFörVara);
 		}
+		System.out.println("");
 		return totalPris;
 	}
 	

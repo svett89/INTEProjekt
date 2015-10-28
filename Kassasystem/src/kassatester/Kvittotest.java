@@ -62,6 +62,28 @@ public class Kvittotest {
 		assertEquals(10, k.getTotalMängdVaror());
 	}
 	
+	@Test
+	public void testaLäggTillVaraSomFinns(){
+		Vara v = skapaVara("Vara V", bigDec("100"));
+		k.läggTillVara(v, 2);
+		assertEquals(2, k.getTotalMängdVaror());
+		k.läggTillVara(v, 1);
+		assertEquals(3, k.getTotalMängdVaror());
+	}
+	
+	@Test
+	public void testaLäggTillMaxAntalAvEnVara(){
+		Vara v = skapaVara("Vara", bigDec("150"));
+		k.läggTillVara(v, Integer.MAX_VALUE);
+		assertEquals(Integer.MAX_VALUE, k.getTotalMängdVaror());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillNullVara(){
+		Vara v = null;
+		k.läggTillVara(v, 3);
+	}
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void testaLäggTillNullIMetod(){
 		Vara v = null;
@@ -72,6 +94,30 @@ public class Kvittotest {
 	public void testaLäggTillNollVaror(){
 		Vara v = skapaVara("V1", bigDec("323"));
 		k.läggTillVara(v, 0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillNegativtAntalVaror(){
+		Vara v = skapaVara("V1", bigDec("6.5"));
+		k.läggTillVara(v, -10);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillNollAntalVaror(){
+		Vara v = skapaVara("Vara1", bigDec("75"));
+		k.läggTillVara(v, 0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillIntMinAntalVaror(){
+		Vara v = skapaVara("Vara1", bigDec("375"));
+		k.läggTillVara(v, Integer.MIN_VALUE);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testaLäggTillStörreAntalÄnIntMax(){
+		Vara v = skapaVara("V1", bigDec("5942"));
+		k.läggTillVara(v, (Integer.MAX_VALUE+1));
 	}
 	
 	@Test 
@@ -268,5 +314,46 @@ public class Kvittotest {
 				+ "V8   1   18.00 SEK\n"
 				+ "V9   1   19.00 SEK\n");
 		RabattLista.tömLista();
+	}
+	
+	@Test
+	public void realistiskAnvändning1(){
+		Kvitto k1 = new Kvitto();
+		Vara v1 = null;
+		try{
+			k1.läggTillVara(v1);
+		}catch(IllegalArgumentException e){
+			
+		}
+		Vara v2 = skapaVara("V2", bigDec("20"));
+		k.läggTillVara(v2);
+		k.taBortVaror(v2, 1);
+		k.läggTillVara(v2);
+		Vara v3 = skapaVara("V3", bigDec("30"));
+		k.läggTillVara(v3, 3);
+		try{
+			k1.läggTillVara(v1);
+		}catch(IllegalArgumentException e){
+			
+		}
+		k.taBortVaror(v3, 1);
+		Pengar expectedTotalPris = new Pengar(bigDec("80"));
+		assertEquals(expectedTotalPris, k.getPrisUtanRabatt());
+		assertEquals(expectedTotalPris, k.getPrisUtanRabatt());
+		MängdRabatt mr = new MängdRabatt("2 V3 -10", new Pengar(bigDec("10")), 2);
+		RabattLista.sparaRabatt(v3, mr);
+		Pengar expectedTotalPrisMedRabatt = new Pengar(bigDec("70"));
+		assertEquals(expectedTotalPrisMedRabatt, k.getPrisMedRabatt());
+		k.skapaUtskrift();
+	}
+	
+	@Test
+	public void realistiskAnvändning2(){
+		Kvitto k = new Kvitto();
+		Vara v = skapaVara("V1", bigDec("100"));
+		k.läggTillVara(v);
+		assertEquals(new Pengar(bigDec("100")), k.getPrisUtanRabatt());
+		assertEquals(new Pengar(bigDec("100")), k.getPrisMedRabatt());
+		k.skapaUtskrift();
 	}
 }
